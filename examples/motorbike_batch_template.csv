@@ -1,0 +1,13 @@
+﻿sample_case,brand,model,year,km,bike_type,capacity,origin,district,title,description,listed_price_million
+Gần giá thị trường,Honda,Air Blade,2015,41450.0,Tay ga,100 - 175 cc,Việt Nam,Thành phố Thủ Đức,Honda Air Blade chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",17.5
+Giá thử nghiệm quá thấp,Honda,SH,2017,30000.0,Tay ga,100 - 175 cc,Việt Nam,Thành phố Thủ Đức,Honda SH chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",17.0
+Giá thử nghiệm quá cao,Honda,Wave,2015,27800.0,Xe số,100 - 175 cc,Việt Nam,Thành phố Thủ Đức,Honda Wave chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",30.0
+Gần giá thị trường,Honda,Air Blade,2014,31000.0,Tay ga,100 - 175 cc,Việt Nam,Quận Bình Tân,Honda Air Blade chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",14.0
+Giá thử nghiệm quá thấp,Honda,SH,2019,26760.0,Tay ga,100 - 175 cc,Việt Nam,Quận Gò Vấp,Honda SH chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",17.0
+Giá thử nghiệm quá cao,Honda,Air Blade,2014,43000.0,Tay ga,100 - 175 cc,Việt Nam,Quận 12,Honda Air Blade chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",53.7
+Gần giá thị trường,Yamaha,Exciter,2015,42000.0,Tay côn/Moto,100 - 175 cc,Việt Nam,Thành phố Thủ Đức,Yamaha Exciter chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",18.25
+Giá thử nghiệm quá thấp,Honda,Wave,2016,21068.0,Xe số,100 - 175 cc,Việt Nam,Quận Bình Tân,Honda Wave chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",2.5
+Giá thử nghiệm quá cao,Honda,Air Blade,2011,38550.0,Tay ga,100 - 175 cc,Việt Nam,Quận 7,Honda Air Blade chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",34.5
+Thiếu số kilomet,Honda,Wave,2019,,Xe số,100 - 175 cc,Việt Nam,Quận Bình Thạnh,Honda Wave chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",8.0
+Thiếu dung tích,Honda,Wave,2012,37000.0,Xe số,,Nhật Bản,Thành phố Thủ Đức,Honda Wave chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",2.2
+Xe trước năm 1980,Yamaha,Exciter,1979,30000.0,Tay côn/Moto,100 - 175 cc,Việt Nam,Quận 12,Yamaha Exciter chính chủ,"Xe sử dụng gia đình, giấy tờ đầy đủ, bảo dưỡng định kỳ.",61.5

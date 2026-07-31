@@ -1,0 +1,128 @@
+{
+  "reference_year": 2025,
+  "data_cutoff": "2025-07-01",
+  "deployment_model_name": "Premium-aware Random Forest",
+  "max_batch_rows": 5000,
+  "batch_schema": {
+    "required_columns": [
+      "brand",
+      "model",
+      "year",
+      "bike_type",
+      "capacity",
+      "origin",
+      "district"
+    ],
+    "optional_columns": [
+      "km",
+      "title",
+      "description",
+      "listed_price_million"
+    ]
+  },
+  "km_suspicious_limit": 500000,
+  "training_rows": 7141,
+  "anomaly_rows": 7193,
+  "numeric_features": [
+    "age",
+    "age_squared",
+    "km_clean",
+    "log_km",
+    "km_per_year",
+    "km_suspicious",
+    "title_length",
+    "description_length",
+    "is_import_keyword",
+    "is_abs_keyword",
+    "is_collectible_keyword",
+    "is_high_capacity"
+  ],
+  "categorical_features": [
+    "brand",
+    "model",
+    "brand_model",
+    "bike_type",
+    "capacity",
+    "origin",
+    "district",
+    "segment"
+  ],
+  "model_features": [
+    "age",
+    "age_squared",
+    "km_clean",
+    "log_km",
+    "km_per_year",
+    "km_suspicious",
+    "title_length",
+    "description_length",
+    "is_import_keyword",
+    "is_abs_keyword",
+    "is_collectible_keyword",
+    "is_high_capacity",
+    "brand",
+    "model",
+    "brand_model",
+    "bike_type",
+    "capacity",
+    "origin",
+    "district",
+    "segment"
+  ],
+  "isolation_numeric_features": [
+    "age",
+    "age_squared",
+    "km_clean",
+    "log_km",
+    "km_per_year",
+    "km_suspicious",
+    "title_length",
+    "description_length",
+    "is_import_keyword",
+    "is_abs_keyword",
+    "is_collectible_keyword",
+    "is_high_capacity",
+    "deployment_predicted_price",
+    "deployment_residual_z"
+  ],
+  "isolation_categorical_features": [
+    "brand",
+    "model",
+    "brand_model",
+    "bike_type",
+    "capacity",
+    "origin",
+    "district",
+    "segment"
+  ],
+  "weights": {
+    "residual": 0.4,
+    "minmax": 0.2,
+    "common_range": 0.2,
+    "isolation": 0.2
+  },
+  "price_sample_weights": {
+    "price_le_30": 1.0,
+    "price_30_to_100": 2.0,
+    "price_gt_100": 4.0
+  },
+  "anomaly_threshold": 48.138331830491175,
+  "isolation_score_min": 0.31515713828993286,
+  "isolation_score_max": 0.38300277831655277,
+  "global_residual_median": 0.07876526759659441,
+  "global_residual_scale": 4.781047748128037,
+  "global_percentiles": {
+    "p01": 1.234567,
+    "p10": 4.5,
+    "p90": 65.0,
+    "p99": 225.0
+  },
+  "versions": {
+    "python": "3.12.13",
+    "numpy": "2.0.2",
+    "pandas": "2.2.2",
+    "scipy": "1.16.3",
+    "scikit_learn": "1.6.1",
+    "joblib": "1.5.3"
+  }
+}

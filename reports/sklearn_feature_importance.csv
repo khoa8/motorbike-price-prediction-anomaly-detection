@@ -1,0 +1,284 @@
+﻿feature,importance
+categorical__model_SH,0.23935315212190963
+numeric__age,0.23119420974445257
+categorical__capacity_Trên 175 cc,0.07333792843672696
+numeric__km,0.04040895210824453
+numeric__description_length,0.03932767535816937
+categorical__bike_type_Xe số,0.03426862659276107
+numeric__title_length,0.027448994114875596
+categorical__bike_type_Tay côn/Moto,0.023253736533564384
+categorical__brand_Honda,0.019883332388265597
+categorical__model_Exciter,0.01897194038248089
+categorical__brand_Piaggio,0.015488348576280358
+categorical__origin_Trung Quốc,0.013721315026934184
+categorical__origin_Thái Lan,0.012141891353635982
+categorical__model_Sport / Xipo,0.010887716210625021
+categorical__capacity_100 - 175 cc,0.010769570485024265
+categorical__brand_SYM,0.008467268381227421
+categorical__model_Future,0.006806526159331732
+categorical__bike_type_Tay ga,0.006651189143513249
+categorical__origin_Nước khác,0.006280083197816505
+categorical__origin_Việt Nam,0.006215794169100426
+categorical__model_Nouvo,0.005993535109684511
+categorical__segment_Honda | SH | 2010-2014,0.005744958718587547
+categorical__model_YAZ,0.005387999711987358
+categorical__brand_Yamaha,0.00517637693850366
+categorical__model_Vario,0.005036599986918356
+categorical__model_Dòng khác,0.004020814834312491
+categorical__origin_Nhật Bản,0.003936456117207238
+categorical__segment_Tay côn/Moto | Trên 175 cc,0.0035260059586266685
+categorical__origin_Hàn Quốc,0.0034160516659254596
+categorical__model_Wave,0.0031488247410761286
+categorical__district_Quận Bình Thạnh,0.0027567500047213987
+categorical__segment_Yamaha | Tay côn/Moto,0.002707111684150758
+categorical__district_Huyện Bình Chánh,0.0026448098372146684
+categorical__model_SH Mode,0.002603100581277209
+categorical__capacity_Dưới 50 cc,0.00250664294130756
+categorical__model_Vespa,0.002475945674389476
+categorical__capacity_50 - 100 cc,0.0023804901426159957
+categorical__district_Thành phố Thủ Đức,0.002332628109277532
+categorical__district_Quận 12,0.0022930059412056853
+categorical__segment_Honda | Tay ga,0.0022459854908532433
+categorical__district_Quận Tân Phú,0.0020301480649045187
+categorical__origin_Đang cập nhật,0.0018819154550419
+categorical__model_Mio,0.0018283109465559552
+categorical__segment_Yamaha | Tay ga,0.001819437183404384
+categorical__segment_Yamaha | Exciter | 2000-2009,0.0017755415596704058
+categorical__segment_Honda | Wave | 2010-2014,0.001660908946417501
+categorical__district_Quận Bình Tân,0.0016576778292067744
+categorical__segment_Honda | Dream | Trước 2000,0.0016357190443715627
+categorical__district_Huyện Hóc Môn,0.0015635448836950681
+categorical__district_Quận Tân Bình,0.001514754722594666
+categorical__segment_Honda | Tay côn/Moto,0.0014791101577950165
+categorical__model_Winner X,0.0013307615894382406
+categorical__segment_Honda | Vario | 2015-2019,0.001315521396270754
+categorical__brand_Hãng khác,0.001314354068858841
+categorical__district_Huyện Củ Chi,0.0013012499193885093
+categorical__model_Winner,0.0012821758649258308
+categorical__district_Quận 8,0.0012428438162152995
+categorical__district_Quận Gò Vấp,0.001236403823320822
+categorical__model_Liberty,0.0012037677852421817
+categorical__district_Quận 10,0.0011870004253268446
+categorical__model_Sirius,0.0011826593080581712
+categorical__segment_Honda | Xe số,0.001138560695010934
+categorical__district_Quận 7,0.0011382313241094957
+categorical__model_Spacy,0.0011278213275239038
+categorical__district_Quận 3,0.0011182383873870356
+categorical__model_Cub,0.0011007839554886356
+categorical__district_Quận 5,0.0010929834802931874
+categorical__brand_Suzuki,0.0010918439831791862
+categorical__origin_Đức,0.000998401254198154
+categorical__segment_Honda | SH | 2015-2019,0.000970558142623087
+categorical__segment_Honda | Air Blade | 2015-2019,0.0008977150963273955
+categorical__model_Vision,0.0008836934308344935
+categorical__model_Dream,0.000875789587871132
+categorical__origin_Đài Loan,0.0008580907014654562
+categorical__brand_Harley Davidson,0.0008159520027993564
+categorical__model_PCX,0.000800534977422633
+categorical__model_infrequent_sklearn,0.0007774715162059326
+categorical__segment_Honda | Future | 2020-2025,0.0007533563393394428
+categorical__segment_Honda | Winner | 2015-2019,0.0007459876181847163
+categorical__segment_Yamaha | Xe số,0.0007432199823768267
+categorical__model_Hayate,0.0007379888204868552
+categorical__model_Click,0.0006671314104500349
+categorical__segment_Yamaha | Exciter | 2020-2025,0.0006398984630864439
+categorical__segment_SYM | Tay ga,0.0006283214185413644
+categorical__segment_Suzuki | Tay ga,0.0006117055440550942
+categorical__model_Janus,0.0006037919051070168
+categorical__segment_Honda | SH Mode | 2015-2019,0.0006006126537712356
+categorical__segment_Nhóm hiếm,0.0005990111824128765
+categorical__segment_Honda | SH Mode | 2020-2025,0.0005985524446531904
+categorical__segment_Honda | Future | 2000-2009,0.0005901399292925212
+categorical__brand_Ducati,0.0005764970045580405
+categorical__model_PS,0.0005700746706504207
+categorical__segment_Yamaha | Exciter | 2010-2014,0.0005586113984958765
+categorical__segment_Honda | Air Blade | 2010-2014,0.0005347856596709162
+categorical__segment_Hãng khác | Dòng khác | 2020-2025,0.0005324700203056134
+categorical__segment_Honda | Wave | 2000-2009,0.0005294999894410771
+categorical__segment_Suzuki | Xe số,0.0005173657702216816
+categorical__origin_Mỹ,0.0005072718938642872
+categorical__model_Attila,0.0004991826790315146
+categorical__segment_Piaggio | Vespa | 2020-2025,0.0004909615848695713
+categorical__model_Air Blade,0.00047168559356917066
+categorical__segment_Honda | SH | 2000-2009,0.0004417146052736561
+categorical__segment_Honda | Air Blade | 2020-2025,0.00043006243836856496
+categorical__segment_Honda | PCX | 2010-2014,0.00041683540524608604
+categorical__model_CB,0.00040216928066928254
+categorical__segment_Honda | Dream | 2000-2009,0.0004002900895605118
+categorical__model_Lead,0.0003965220680458269
+categorical__capacity_Không biết rõ,0.0003912601785158019
+categorical__segment_Honda | Dòng khác | Trước 2000,0.00038592363076752907
+categorical__district_Quận 6,0.0003729066631243646
+categorical__model_XSR,0.00037217956418887844
+categorical__brand_KTM,0.0003701481349229999
+categorical__segment_Piaggio | Tay ga,0.0003672677916936109
+categorical__brand_BMW,0.0003662804108482158
+categorical__segment_Suzuki | Tay côn/Moto,0.00035895550323007403
+categorical__model_Dylan,0.0003494875696402018
+categorical__segment_Honda | Dylan | 2000-2009,0.00033189106570924513
+categorical__segment_Hãng khác | Dòng khác | 2000-2009,0.00033156755627914905
+categorical__segment_Honda | Wave | 2015-2019,0.00032701095592969925
+categorical__segment_Honda | Future | 2015-2019,0.0003242804641444558
+categorical__segment_Honda | Wave | 2020-2025,0.0003238764440087427
+categorical__segment_Honda | Winner X | 2020-2025,0.00032282134593967067
+categorical__segment_Tay côn/Moto | 100 - 175 cc,0.0003204296158086219
+categorical__brand_Kawasaki,0.0003192084250643722
+categorical__district_Quận 11,0.00030263739134478977
+categorical__district_Huyện Nhà Bè,0.00030167150901963964
+categorical__segment_Piaggio | Vespa | 2015-2019,0.0002904438923527206
+categorical__model_PG-1,0.00028999157872395626
+categorical__segment_Honda | Vision | 2020-2025,0.00028984324001254307
+categorical__segment_Yamaha | Exciter | 2015-2019,0.0002799353049024132
+categorical__segment_Hãng khác | Dòng khác | 2010-2014,0.0002757195267873228
+categorical__model_Win,0.0002734303970195643
+categorical__model_Z1000,0.00026896444886801845
+categorical__model_Chaly,0.00026337929460454155
+categorical__model_Shark,0.00026239278581223415
+categorical__segment_Honda | Future | 2010-2014,0.00025096852940630066
+categorical__segment_Hãng khác | Dòng khác | Trước 2000,0.0002454305851365926
+categorical__segment_Honda | SH | 2020-2025,0.00024355423957406961
+categorical__brand_Triumph,0.00024205187992690198
+categorical__model_CBR,0.00023339605734483485
+categorical__segment_Honda | Click | 2000-2009,0.0002317101970459168
+categorical__segment_Honda | Vision | 2010-2014,0.00023102394115333367
+categorical__model_W175,0.00023031529425771117
+categorical__segment_Honda | Dòng khác | 2000-2009,0.00022192618943044792
+categorical__model_67,0.00022159154590437781
+categorical__segment_Hãng khác | Dòng khác | 2015-2019,0.00021780801500603442
+categorical__model_Axelo,0.00021702677615421308
+categorical__model_SCR,0.0002157518052169123
+categorical__segment_Yamaha | Janus | 2020-2025,0.00021038137618749675
+categorical__model_GZ,0.00020783026395263418
+categorical__model_Sprint,0.00020658490666219777
+categorical__brand_GPX,0.0002008656881178708
+categorical__model_Nvx,0.0001967865863440028
+categorical__segment_Honda | Lead | 2000-2009,0.00019671487481184171
+categorical__segment_Yamaha | Nouvo | 2000-2009,0.0001922199443253385
+categorical__segment_Yamaha | Janus | 2015-2019,0.00019186173569310988
+categorical__segment_Tay ga | Dưới 50 cc,0.00018822579229502235
+categorical__district_Quận 1,0.00018651739306025847
+categorical__segment_Honda | Vision | 2015-2019,0.00018585794816391334
+categorical__district_Quận Phú Nhuận,0.000181548402888626
+categorical__segment_Kawasaki | Tay côn/Moto,0.0001733447457094272
+categorical__model_Jupiter,0.000172991514561165
+categorical__model_Blade,0.0001724760597256442
+categorical__model_Wolf,0.00016621857760011792
+categorical__segment_SYM | Attila | 2000-2009,0.00016005789571665695
+categorical__model_Luvias,0.00015792472101221433
+categorical__model_Rebel,0.00014987322979078668
+categorical__brand_infrequent_sklearn,0.00014817125658392493
+categorical__segment_Honda | Air Blade | 2000-2009,0.00014765118943845372
+categorical__model_Nozza,0.0001476065461068492
+categorical__model_Fly,0.000147073990354072
+categorical__model_Grande,0.00013785364424468994
+categorical__model_NM-X,0.000137784834116377
+categorical__segment_Honda | Dòng khác | 2020-2025,0.00013442878570128436
+categorical__model_GTS,0.0001329605741221527
+categorical__segment_Honda | Blade | 2015-2019,0.0001290686663097251
+categorical__segment_Honda | Cub | Trước 2000,0.00012845143906636616
+categorical__segment_Piaggio | Liberty | 2010-2014,0.00012728457341623018
+categorical__model_CD,0.00011896118328473021
+categorical__segment_Yamaha | Sirius | 2020-2025,0.00011859534454363273
+categorical__origin_Ấn Độ,0.00011564880545555826
+categorical__segment_SYM | Tay côn/Moto,0.00011509194397184111
+categorical__district_Quận 4,0.0001122998737105569
+categorical__model_ADV 160,0.00011218023844894912
+categorical__segment_Piaggio | Vespa | 2010-2014,0.00010976934166421606
+categorical__model_Sonic,0.0001082600392375659
+categorical__model_Rebell,0.00010133752370893754
+categorical__segment_Honda | 67 | Trước 2000,9.97763686758811e-05
+categorical__segment_Yamaha | Sirius | 2015-2019,9.847668370945167e-05
+categorical__model_@,9.683281208343964e-05
+categorical__district_Không rõ,9.640158387395999e-05
+categorical__model_Galaxy,9.345933190963606e-05
+categorical__model_TFX,8.904515678315362e-05
+categorical__model_Satria,8.818722593893624e-05
+categorical__model_R,8.364825794303589e-05
+categorical__segment_SYM | Xe số,7.830353859483624e-05
+categorical__model_Zip,7.36449044465533e-05
+categorical__brand_RebelUSA,7.199786619896112e-05
+categorical__model_FZ,6.512735794792262e-05
+categorical__model_Duke 200,6.336134107880851e-05
+categorical__model_GSX,6.279110411119203e-05
+categorical__segment_Honda | Lead | 2015-2019,6.224280653158496e-05
+categorical__segment_Yamaha | Nvx | 2015-2019,6.223759051733849e-05
+categorical__model_MT,6.0668791659101e-05
+categorical__segment_Honda | Lead | 2020-2025,5.845823724542517e-05
+categorical__segment_Yamaha | Nouvo | 2010-2014,5.759437240165805e-05
+categorical__segment_Honda | Vario | 2020-2025,5.6594026396431936e-05
+categorical__model_Raider,4.897092349922952e-05
+categorical__segment_Suzuki | Hayate | 2010-2014,4.778644432084389e-05
+categorical__segment_Yamaha | Jupiter | 2000-2009,4.584099770675586e-05
+categorical__segment_Yamaha | Luvias | 2010-2014,4.515025258477008e-05
+categorical__segment_Yamaha | Mio | 2000-2009,4.428259142798602e-05
+categorical__segment_Yamaha | Jupiter | 2010-2014,4.1955179614353536e-05
+categorical__model_Beat,4.189576904523096e-05
+categorical__model_Espero,4.110223145116774e-05
+categorical__model_Freego,4.0830973248811865e-05
+categorical__model_Viva,4.050538104265343e-05
+categorical__model_Hypermotard,3.649518555112463e-05
+categorical__model_Husky,3.517041719481991e-05
+categorical__segment_Honda | Lead | 2010-2014,3.441199221070153e-05
+categorical__segment_Honda | Click | 2010-2014,3.296779901332646e-05
+categorical__brand_Kymco,3.163418655686574e-05
+categorical__model_GN,2.9560589176954123e-05
+categorical__brand_Aprilia,2.895399983332033e-05
+categorical__segment_Yamaha | Sirius | 2010-2014,2.8786701144229202e-05
+categorical__segment_SYM | Attila | 2010-2014,2.8728477800750642e-05
+categorical__brand_Benelli,2.7623755827956e-05
+categorical__model_Legend Gentleman 200,2.657204334466006e-05
+categorical__model_Elizabeth,2.4111313809946826e-05
+categorical__model_Scrambler,2.384737093531554e-05
+categorical__model_Cuxi,2.213433271534137e-05
+categorical__brand_Detech,2.2075036675619638e-05
+categorical__model_LX,2.1727130391269712e-05
+categorical__model_Max,2.1629059096492083e-05
+categorical__brand_Daelim,2.1592579664979234e-05
+categorical__model_Acruzo,2.1196951128703895e-05
+categorical__model_48,2.0514474089942804e-05
+categorical__model_Venus,1.9135515059022056e-05
+categorical__segment_Honda | Winner X | 2015-2019,1.7865938813448943e-05
+categorical__brand_Bazan,1.7411152584956985e-05
+categorical__model_Z650,1.738481961909405e-05
+categorical__segment_Yamaha | Sirius | 2000-2009,1.684913444707383e-05
+categorical__segment_Suzuki | Raider | 2015-2019,1.6459181986884404e-05
+categorical__model_Angela,1.5680615267350413e-05
+categorical__model_Nio Fi 50cc,1.4907200828487715e-05
+categorical__segment_Xe số | Dưới 50 cc,1.4458305636309428e-05
+categorical__segment_Xe số | 50 - 100 cc,1.4342858551209595e-05
+categorical__model_Impulse,1.3741969341506036e-05
+categorical__model_Elegant,1.019615442983729e-05
+categorical__model_Scoopy,9.19022006581864e-06
+categorical__model_Xbike,8.217636336431808e-06
+categorical__model_Shadow,7.558551423877655e-06
+categorical__segment_Yamaha | Mio | 2010-2014,7.552587238553044e-06
+categorical__brand_Nioshima,7.168227174583481e-06
+categorical__model_Vespa S125,6.563703417571179e-06
+categorical__model_Primavera,6.3565366230983376e-06
+categorical__model_Taurus,5.918257551155803e-06
+categorical__model_Magic,5.533850937852324e-06
+categorical__brand_Halim,5.344718662612187e-06
+categorical__model_Enjoy,5.104277004552143e-06
+categorical__origin_Bảo hành hãng,4.7307496343923e-06
+categorical__model_ADV 150,4.71673176390308e-06
+categorical__model_GD,4.71523177338417e-06
+categorical__model_Rock,4.637970959463862e-06
+categorical__model_Kawasaki,4.335984005096811e-06
+categorical__model_MSX 125,3.0419622057051035e-06
+categorical__model_EZ,2.638244640451711e-06
+categorical__brand_Brixton,2.5467464306030584e-06
+categorical__model_Candy Hi,1.4695962179749125e-06
+categorical__model_Elite,1.0282287160747093e-06
+categorical__brand_Hyosung,1.0203444390303707e-06
+categorical__model_K-Pipe,8.028828507575271e-07
+categorical__model_Joyride,7.100284593359115e-07
+categorical__brand_Không rõ,0.0
+categorical__model_YB125,0.0
+categorical__model_Không rõ,0.0
+categorical__model_Giorno,0.0
+categorical__district_Huyện Cần Giờ,0.0
+categorical__capacity_Đang cập nhật,0.0
+categorical__model_CG125Fi,0.0
+categorical__brand_VinFast,0.0
+categorical__model_Citi,0.0
+categorical__brand_Sanda,0.0

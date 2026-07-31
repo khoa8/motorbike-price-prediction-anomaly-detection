@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+.ipynb_checkpoints/
+.vscode/
+
+# Raw/private data
+data_motobikes.xlsx
+data/
+motorbikes_cleaned.csv
+sklearn_anomaly_results.csv
+spark_anomaly_results.csv

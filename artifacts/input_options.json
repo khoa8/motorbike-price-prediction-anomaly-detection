@@ -1,0 +1,397 @@
+{
+  "brands": [
+    "Aprilia",
+    "BMW",
+    "Bazan",
+    "Benelli",
+    "Brixton",
+    "CR&S",
+    "Daelim",
+    "Detech",
+    "Ducati",
+    "GPX",
+    "Halim",
+    "Harley Davidson",
+    "Honda",
+    "Hyosung",
+    "Hãng khác",
+    "KTM",
+    "Kawasaki",
+    "Keeway",
+    "Kengo",
+    "Không rõ",
+    "Kymco",
+    "Moto Guzzi",
+    "Nioshima",
+    "Peugeot",
+    "Piaggio",
+    "RebelUSA",
+    "Royal Enfield",
+    "SYM",
+    "Sachs",
+    "Sanda",
+    "Suzuki",
+    "Taya",
+    "Triumph",
+    "Vento",
+    "Victory",
+    "VinFast",
+    "Visitor",
+    "Yamaha"
+  ],
+  "models_by_brand": {
+    "Aprilia": [
+      "2015 RSV4 R APRC ABS",
+      "SR GT 200"
+    ],
+    "BMW": [
+      "Dòng khác",
+      "R nine T",
+      "R1200",
+      "S1000RR"
+    ],
+    "Bazan": [
+      "Dòng khác"
+    ],
+    "Benelli": [
+      "BN 302",
+      "Dòng khác",
+      "Pepe",
+      "T15",
+      "TNT"
+    ],
+    "Brixton": [
+      "BX 125",
+      "BX 150"
+    ],
+    "CR&S": [
+      "Dòng khác"
+    ],
+    "Daelim": [
+      "Cub",
+      "Dòng khác",
+      "VS125"
+    ],
+    "Detech": [
+      "Dòng khác",
+      "Espero"
+    ],
+    "Ducati": [
+      "1199 panigale",
+      "Diavel",
+      "Dòng khác",
+      "Hypermotard",
+      "Monster",
+      "Multistrada",
+      "Scrambler"
+    ],
+    "GPX": [
+      "Demon 150GN",
+      "Demon 150GR",
+      "Demon X 125cc",
+      "Legend 200",
+      "Legend Gentleman 200",
+      "Rock"
+    ],
+    "Halim": [
+      "Dòng khác"
+    ],
+    "Harley Davidson": [
+      "48",
+      "Dyna",
+      "Dòng khác",
+      "Fat Boy",
+      "Sportster",
+      "Superlow",
+      "Touring",
+      "V-Rod"
+    ],
+    "Honda": [
+      "67",
+      "@",
+      "ADV 150",
+      "ADV 160",
+      "Air Blade",
+      "Beat",
+      "Blade",
+      "CB",
+      "CBR",
+      "CD",
+      "CG125Fi",
+      "Chaly",
+      "Citi",
+      "Click",
+      "Cub",
+      "Dream",
+      "Dylan",
+      "Dòng khác",
+      "Future",
+      "Giorno",
+      "Lead",
+      "MSX 125",
+      "Monkey",
+      "Nova",
+      "PCX",
+      "PS",
+      "Rebel",
+      "SCR",
+      "SH",
+      "SH Mode",
+      "Scoopy",
+      "Shadow",
+      "Sonic",
+      "Spacy",
+      "Vario",
+      "Vision",
+      "Wave",
+      "Win",
+      "Winner",
+      "Winner X"
+    ],
+    "Hyosung": [
+      "125/250",
+      "Dòng khác",
+      "GV",
+      "ST"
+    ],
+    "Hãng khác": [
+      "Dòng khác"
+    ],
+    "KTM": [
+      "1290 Super Duke R",
+      "390",
+      "Duke 200",
+      "Duke 250",
+      "Duke 390",
+      "RC 200",
+      "RC 250"
+    ],
+    "Kawasaki": [
+      "Dòng khác",
+      "Kawasaki",
+      "Max",
+      "Ninja",
+      "Vulcan",
+      "W175",
+      "Z1000",
+      "Z125",
+      "Z300",
+      "Z650",
+      "Z800",
+      "Z900"
+    ],
+    "Keeway": [
+      "Dòng khác"
+    ],
+    "Kengo": [
+      "Dòng khác"
+    ],
+    "Không rõ": [
+      "Không rõ"
+    ],
+    "Kymco": [
+      "Candy Hi",
+      "Candy S",
+      "Dòng khác",
+      "Jockey Fi",
+      "K-Pipe",
+      "Like Fi",
+      "Like MMC",
+      "People 16 Fi"
+    ],
+    "Moto Guzzi": [
+      "Dòng khác"
+    ],
+    "Nioshima": [
+      "Nio Fi 50cc"
+    ],
+    "Peugeot": [
+      "Django"
+    ],
+    "Piaggio": [
+      "Beverly",
+      "Dòng khác",
+      "ET8",
+      "Fly",
+      "GT",
+      "GTS",
+      "LX",
+      "Liberty",
+      "Medley",
+      "Primavera",
+      "Sprint",
+      "Vespa",
+      "Vespa S125",
+      "Zip"
+    ],
+    "RebelUSA": [
+      "CDR",
+      "Dòng khác",
+      "Rebell"
+    ],
+    "Royal Enfield": [
+      "Bullet 500",
+      "Dòng khác",
+      "Interceptor 650"
+    ],
+    "SYM": [
+      "Amigo",
+      "Angela",
+      "Attila",
+      "Bonus",
+      "Cello",
+      "Dòng khác",
+      "EZ",
+      "Elegant",
+      "Elite",
+      "Elizabeth",
+      "Enjoy",
+      "Galaxy",
+      "Husky",
+      "Joyride",
+      "Magic",
+      "Sanda Boss",
+      "Shark",
+      "Star",
+      "Venus",
+      "Wolf"
+    ],
+    "Sachs": [
+      "Dòng khác",
+      "MadAss",
+      "SR 125"
+    ],
+    "Sanda": [
+      "Dòng khác"
+    ],
+    "Suzuki": [
+      "Axelo",
+      "Dòng khác",
+      "EN",
+      "Epicuro",
+      "FX125",
+      "GD",
+      "GN",
+      "GSX",
+      "GZ",
+      "Hayate",
+      "Impulse",
+      "Raider",
+      "Revo",
+      "Sapphire",
+      "Satria",
+      "Smash",
+      "Sport / Xipo",
+      "Stinger",
+      "Viva",
+      "Xbike"
+    ],
+    "Taya": [
+      "Cub",
+      "Dòng khác"
+    ],
+    "Triumph": [
+      "Dòng khác",
+      "Street Scramber",
+      "Street Triple",
+      "Street Twin",
+      "Triumph Bonneville T100"
+    ],
+    "Vento": [
+      "Rebellian"
+    ],
+    "Victory": [
+      "Dòng khác"
+    ],
+    "VinFast": [
+      "Feliz S",
+      "Vento S",
+      "dòng khác"
+    ],
+    "Visitor": [
+      "Phoenix"
+    ],
+    "Yamaha": [
+      "Acruzo",
+      "Cuxi",
+      "Dòng khác",
+      "Exciter",
+      "FZ",
+      "Freego",
+      "Grande",
+      "Janus",
+      "Jupiter",
+      "Latte",
+      "Luvias",
+      "MT",
+      "Mio",
+      "NM-X",
+      "Nouvo",
+      "Nozza",
+      "Nvx",
+      "PG-1",
+      "R",
+      "Sirius",
+      "TFX",
+      "Taurus",
+      "Tracer",
+      "XMAX",
+      "XSR",
+      "YAZ",
+      "YB125",
+      "Yass"
+    ]
+  },
+  "bike_types": [
+    "Tay côn/Moto",
+    "Tay ga",
+    "Xe số"
+  ],
+  "capacities": [
+    "100 - 175 cc",
+    "50 - 100 cc",
+    "Dưới 50 cc",
+    "Không biết rõ",
+    "Trên 175 cc",
+    "Đang cập nhật"
+  ],
+  "origins": [
+    "Bảo hành hãng",
+    "Hàn Quốc",
+    "Mỹ",
+    "Nhật Bản",
+    "Nước khác",
+    "Thái Lan",
+    "Trung Quốc",
+    "Việt Nam",
+    "Đang cập nhật",
+    "Đài Loan",
+    "Đức",
+    "Ấn Độ"
+  ],
+  "districts": [
+    "Huyện Bình Chánh",
+    "Huyện Cần Giờ",
+    "Huyện Củ Chi",
+    "Huyện Hóc Môn",
+    "Huyện Nhà Bè",
+    "Không rõ",
+    "Quận 1",
+    "Quận 10",
+    "Quận 11",
+    "Quận 12",
+    "Quận 3",
+    "Quận 4",
+    "Quận 5",
+    "Quận 6",
+    "Quận 7",
+    "Quận 8",
+    "Quận Bình Thạnh",
+    "Quận Bình Tân",
+    "Quận Gò Vấp",
+    "Quận Phú Nhuận",
+    "Quận Tân Bình",
+    "Quận Tân Phú",
+    "Thành phố Thủ Đức"
+  ]
+}

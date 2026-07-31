@@ -1,0 +1,57 @@
+{
+  "deployment_model_name": "Premium-aware Random Forest",
+  "test_evaluation": [
+    {
+      "Model": "Benchmark Random Forest",
+      "MAE": 10.129214,
+      "RMSE": 33.261516,
+      "R2": 0.465203,
+      "Premium rows": 59,
+      "Premium MAE": 89.763804,
+      "Premium RMSE": 151.346587,
+      "Common MAE": 6.699695
+    },
+    {
+      "Model": "Premium-aware Random Forest",
+      "MAE": 9.772779,
+      "RMSE": 31.649028,
+      "R2": 0.515799,
+      "Premium rows": 59,
+      "Premium MAE": 80.601649,
+      "Premium RMSE": 142.670044,
+      "Common MAE": 6.722485
+    }
+  ],
+  "oof_evaluation": [
+    {
+      "Model": "Benchmark RF - 5-fold OOF",
+      "MAE": 10.110281,
+      "RMSE": 32.088758,
+      "R2": 0.491471,
+      "Premium rows": 313,
+      "Premium MAE": 89.341147,
+      "Premium RMSE": 141.380891,
+      "Common MAE": 6.478286
+    },
+    {
+      "Model": "Premium-aware RF - 5-fold OOF",
+      "MAE": 9.740684,
+      "RMSE": 30.589477,
+      "R2": 0.537881,
+      "Premium rows": 313,
+      "Premium MAE": 81.032215,
+      "Premium RMSE": 133.581032,
+      "Common MAE": 6.472634
+    }
+  ],
+  "model_decision": {
+    "overall_mae_change_percent": -3.655651456247304,
+    "premium_mae_change_percent": -9.300229487680152,
+    "premium_rmse_change_percent": -5.516911802580622,
+    "keep_premium_model": true
+  },
+  "anomaly": {
+    "threshold": 48.138331830491175,
+    "total_anomaly": 360
+  }
+}

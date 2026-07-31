@@ -1,0 +1,5 @@
+﻿Metric,Value
+OOF MAE change (%),-3.655651456247304
+OOF Premium MAE change (%),-9.300229487680152
+OOF Premium RMSE change (%),-5.516911802580622
+Keep premium-aware model,True
