@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,12 @@ ROOT_DIR = Path(__file__).resolve().parent
 ARTIFACT_DIR = ROOT_DIR / "artifacts"
 REPORT_DIR = ROOT_DIR / "reports"
 EXAMPLE_DIR = ROOT_DIR / "examples"
+BANNER_CANDIDATES = (
+    ROOT_DIR / "assets" / "motorbike_banner.png",
+    ROOT_DIR / "assets" / "motorbike_banner.jpg",
+    ROOT_DIR / "assets" / "motorbike_banner.jpeg",
+    ROOT_DIR / "motorbike_banner.png",
+)
 
 
 @st.cache_resource
@@ -107,6 +114,234 @@ def load_support_data() -> dict[str, Any]:
     }
 
 
+def apply_app_theme(dark_mode: bool) -> None:
+    """Apply a session-level light/dark skin without restarting the app."""
+    if dark_mode:
+        colors = {
+            "app": "#0B1120",
+            "panel": "#111827",
+            "panel_alt": "#172033",
+            "sidebar": "#0F172A",
+            "text": "#F8FAFC",
+            "muted": "#CBD5E1",
+            "border": "#334155",
+            "input": "#111827",
+            "shadow": "rgba(0, 0, 0, 0.30)",
+        }
+    else:
+        colors = {
+            "app": "#FFFFFF",
+            "panel": "#FFFFFF",
+            "panel_alt": "#F3F4F6",
+            "sidebar": "#F5F6F8",
+            "text": "#111827",
+            "muted": "#4B5563",
+            "border": "#D1D5DB",
+            "input": "#FFFFFF",
+            "shadow": "rgba(15, 23, 42, 0.08)",
+        }
+
+    st.markdown(
+        f"""
+<style>
+:root {{
+    --app-bg: {colors['app']};
+    --panel-bg: {colors['panel']};
+    --panel-alt: {colors['panel_alt']};
+    --sidebar-bg: {colors['sidebar']};
+    --app-text: {colors['text']};
+    --muted-text: {colors['muted']};
+    --app-border: {colors['border']};
+    --input-bg: {colors['input']};
+    --app-shadow: {colors['shadow']};
+}}
+
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"] {{
+    background: var(--app-bg);
+    color: var(--app-text);
+}}
+
+[data-testid="stSidebar"] > div:first-child {{
+    background: var(--sidebar-bg);
+}}
+
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] *:not(svg) {{
+    color: var(--app-text);
+}}
+
+[data-testid="stHeader"] {{
+    background: color-mix(in srgb, var(--app-bg) 92%, transparent);
+}}
+
+h1, h2, h3, h4, h5, h6, p, label,
+[data-testid="stMarkdownContainer"],
+[data-testid="stMetricLabel"],
+[data-testid="stMetricValue"] {{
+    color: var(--app-text);
+}}
+
+[data-testid="stCaptionContainer"],
+[data-testid="stWidgetLabel"] p {{
+    color: var(--muted-text);
+}}
+
+[data-testid="stMetric"],
+[data-testid="stExpander"],
+[data-testid="stFileUploaderDropzone"] {{
+    background: var(--panel-bg);
+    border-color: var(--app-border);
+}}
+
+input, textarea,
+div[data-baseweb="select"] > div,
+div[data-baseweb="base-input"] {{
+    background: var(--input-bg) !important;
+    color: var(--app-text) !important;
+    border-color: var(--app-border) !important;
+}}
+
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {{
+    border: 1px solid var(--app-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}}
+
+[data-testid="stAlert"] {{
+    border-radius: 0.85rem;
+}}
+
+.block-container {{
+    padding-top: 1.2rem;
+    padding-bottom: 3rem;
+}}
+
+.app-hero {{
+    min-height: 245px;
+    border-radius: 22px;
+    margin: 0.1rem 0 1.5rem 0;
+    padding: 2.1rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0 12px 32px var(--app-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}}
+
+.app-hero-content {{
+    max-width: 960px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+}}
+
+.app-hero-kicker {{
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+}}
+
+.app-hero-title {{
+    font-size: clamp(1.65rem, 3vw, 2.7rem);
+    line-height: 1.15;
+    font-weight: 850;
+    margin-bottom: 0.65rem;
+}}
+
+.app-hero-subtitle {{
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    font-weight: 600;
+    opacity: 0.95;
+}}
+
+.score-track {{
+    width: 100%;
+    height: 14px;
+    background: var(--panel-alt);
+    border: 1px solid var(--app-border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 0.35rem 0 1rem 0;
+}}
+
+.score-fill {{
+    height: 100%;
+    border-radius: 999px;
+    transition: width 240ms ease;
+}}
+
+.state-note {{
+    padding: 0.65rem 0.85rem;
+    margin: 0.25rem 0 1rem 0;
+    border: 1px solid var(--app-border);
+    border-radius: 0.75rem;
+    background: var(--panel-alt);
+    color: var(--muted-text);
+    font-size: 0.9rem;
+}}
+</style>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+def banner_background() -> str:
+    """Return a CSS background image, or a built-in gradient fallback."""
+    for path in BANNER_CANDIDATES:
+        if not path.exists():
+            continue
+
+        suffix = path.suffix.lower()
+        mime = "image/png" if suffix == ".png" else "image/jpeg"
+        encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+        return (
+            "linear-gradient(90deg, rgba(4, 12, 28, 0.78), "
+            "rgba(4, 12, 28, 0.38), rgba(4, 12, 28, 0.72)), "
+            f"url('data:{mime};base64,{encoded}')"
+        )
+
+    return (
+        "radial-gradient(circle at 18% 25%, rgba(34, 211, 238, 0.42), "
+        "transparent 30%), radial-gradient(circle at 82% 70%, "
+        "rgba(239, 68, 68, 0.34), transparent 28%), "
+        "linear-gradient(120deg, #071426, #12325A 48%, #0F172A)"
+    )
+
+
+def render_global_banner() -> None:
+    background = banner_background()
+    st.markdown(
+        f"""
+<div class="app-hero" style="background-image: {background};">
+  <div class="app-hero-content">
+    <div class="app-hero-kicker">Đồ án Big Data trong Machine Learning</div>
+    <div class="app-hero-title">Dự đoán giá &amp; phát hiện bất thường giá xe máy</div>
+    <div class="app-hero-subtitle">Scikit-learn · Spark ML · Streamlit</div>
+  </div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+def render_session_note() -> None:
+    st.markdown(
+        """
+<div class="state-note">
+Kết quả và dữ liệu nhập được giữ khi chuyển trang trong cùng phiên làm việc.
+Chúng được đặt lại khi tải lại toàn bộ trang hoặc mở một phiên mới.
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
 def default_index(options: list[str], preferred: str) -> int:
     try:
         return options.index(preferred)
@@ -136,10 +371,16 @@ def render_vehicle_inputs(
         available_models = options["models_by_brand"].get(
             brand, ["Không rõ"]
         )
+        model_key = f"{prefix}_model"
+        if (
+            model_key in st.session_state
+            and st.session_state[model_key] not in available_models
+        ):
+            st.session_state[model_key] = available_models[0]
         model = st.selectbox(
             "Dòng xe",
             available_models,
-            key=f"{prefix}_model",
+            key=model_key,
         )
 
         bike_types = options["bike_types"]
@@ -246,8 +487,7 @@ def make_vehicle_frame(
 
 
 def page_business_problem() -> None:
-    st.title("🏍️ Dự đoán giá và phát hiện bất thường giá xe máy")
-
+    st.title("🎯 Bài toán kinh doanh")
     st.markdown(
         """
 Ứng dụng phục vụ hai nhóm người dùng:
@@ -367,14 +607,38 @@ def page_evaluation() -> None:
     )
 
 
+def render_prediction_result(result: dict[str, Any]) -> None:
+    col1, col2, col3 = st.columns(3)
+    col1.metric(
+        "Giá gợi ý",
+        f"{result['predicted_price']:,.1f} triệu đồng",
+    )
+    col2.metric("P10 phân khúc", f"{result['p10']:,.1f} triệu")
+    col3.metric("P90 phân khúc", f"{result['p90']:,.1f} triệu")
+
+    st.write("**Phân khúc:**", result["segment"])
+
+    if result["segment"] == "Nhóm hiếm" or result["predicted_price"] > 100:
+        st.warning(
+            "Xe thuộc nhóm hiếm hoặc nhóm giá cao; sai số có thể "
+            "lớn hơn xe phổ thông."
+        )
+
+    st.caption(
+        "P10-P90 là dải giá lịch sử phổ biến của phân khúc, "
+        "không phải khoảng bảo đảm cho dự đoán."
+    )
+
+
 def page_price_prediction() -> None:
     st.title("💰 Dự đoán giá xe")
+    render_session_note()
     models = load_models()
     support = load_support_data()
 
     values = render_vehicle_inputs(prefix="prediction", support=support)
 
-    if st.button("Dự đoán giá", type="primary"):
+    if st.button("Dự đoán giá", type="primary", key="prediction_submit"):
         try:
             vehicle = make_vehicle_frame(values, support)
             predicted_price = predict_price(
@@ -386,29 +650,19 @@ def page_price_prediction() -> None:
                 segment_statistics=support["segment_statistics"],
                 config=support["config"],
             )
-
-            col1, col2, col3 = st.columns(3)
-            col1.metric(
-                "Giá gợi ý",
-                f"{predicted_price:,.1f} triệu đồng",
-            )
-            col2.metric("P10 phân khúc", f"{stats['p10']:,.1f} triệu")
-            col3.metric("P90 phân khúc", f"{stats['p90']:,.1f} triệu")
-
-            st.write("**Phân khúc:**", segment)
-
-            if segment == "Nhóm hiếm" or predicted_price > 100:
-                st.warning(
-                    "Xe thuộc nhóm hiếm hoặc nhóm giá cao; sai số có thể "
-                    "lớn hơn xe phổ thông."
-                )
-
-            st.caption(
-                "P10-P90 là dải giá lịch sử phổ biến của phân khúc, "
-                "không phải khoảng bảo đảm cho dự đoán."
-            )
+            st.session_state["prediction_result"] = {
+                "predicted_price": predicted_price,
+                "segment": segment,
+                "p10": float(stats["p10"]),
+                "p90": float(stats["p90"]),
+            }
         except (ValueError, KeyError) as error:
             st.error(str(error))
+
+    result = st.session_state.get("prediction_result")
+    if isinstance(result, dict):
+        st.divider()
+        render_prediction_result(result)
 
 
 def yes_no(value: bool) -> str:
@@ -431,6 +685,28 @@ def render_review_status(result: dict[str, Any]) -> None:
         st.success(f"**Bình thường**\n\n{explanation}")
 
 
+def anomaly_status_color(status: str) -> str:
+    return {
+        "Bình thường": "#16A34A",
+        "Cần kiểm tra thủ công": "#F59E0B",
+        "Bất thường": "#DC2626",
+    }.get(status, "#64748B")
+
+
+def render_anomaly_progress(result: dict[str, Any]) -> None:
+    score = min(max(float(result["anomaly_score"]), 0.0), 100.0)
+    color = anomaly_status_color(str(result["review_status"]))
+    st.markdown(
+        f"""
+<div class="score-track" role="progressbar" aria-valuemin="0"
+     aria-valuemax="100" aria-valuenow="{score:.2f}">
+  <div class="score-fill" style="width: {score:.2f}%; background: {color};"></div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
 def render_anomaly_explanations(result: dict[str, Any]) -> None:
     """Explain score, threshold and every component signal."""
     distance = float(result["distance_to_threshold"])
@@ -440,10 +716,9 @@ def render_anomaly_explanations(result: dict[str, Any]) -> None:
         else f"Còn {distance:.2f} điểm"
     )
 
-    #metric1, metric2, metric3, metric4 = st.columns(4)
     metric1, metric2, metric3, metric4 = st.columns(
-        [1, 1, 1.5, 1],   # Cột 3 rộng hơn
-        gap="medium",     # Cách cột 4 xa hơn một chút
+        [1, 1, 1.5, 1],
+        gap="medium",
     )
     metric1.metric("Anomaly score", f"{result['anomaly_score']:.2f}/100")
     metric2.metric("Ngưỡng", f"{result['anomaly_threshold']:.2f}/100")
@@ -532,8 +807,55 @@ def render_anomaly_explanations(result: dict[str, Any]) -> None:
             )
 
 
+def render_anomaly_result(result: dict[str, Any]) -> None:
+    predicted_price = float(result["predicted_price"])
+    relative_gap = (
+        100.0 * float(result["difference"]) / predicted_price
+        if predicted_price > 0
+        else 0.0
+    )
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(
+        "Giá dự đoán",
+        f"{predicted_price:,.1f} triệu",
+    )
+    col2.metric(
+        "Giá nhập",
+        f"{result['listed_price']:,.1f} triệu",
+    )
+    col3.metric(
+        "Chênh lệch",
+        f"{result['difference']:+,.1f} triệu",
+    )
+    col4.metric(
+        "Chênh lệch %",
+        f"{relative_gap:+,.1f}%",
+    )
+
+    st.subheader("Anomaly score")
+    render_anomaly_progress(result)
+    render_review_status(result)
+
+    if result["review_status"] == "Bình thường" and abs(relative_gap) >= 50:
+        st.info(
+            f"Giá lệch {abs(relative_gap):.1f}% so với dự đoán nhưng vẫn chưa "
+            "vượt ngưỡng anomaly. Hệ thống chấm theo Residual-Z, phân vị giá "
+            "của phân khúc và Isolation Forest, không dùng riêng tỷ lệ % chênh lệch."
+        )
+
+    render_anomaly_explanations(result)
+
+    st.write("**Lý do/tín hiệu chính:**", "; ".join(result["reasons"]))
+    st.caption(
+        "Kết quả chỉ hỗ trợ định giá và ưu tiên kiểm duyệt. "
+        "Bất thường không đồng nghĩa chắc chắn nhập sai hoặc gian lận."
+    )
+
+
 def page_anomaly_check() -> None:
     st.title("🚨 Kiểm tra giá bất thường")
+    render_session_note()
     models = load_models()
     support = load_support_data()
 
@@ -543,9 +865,10 @@ def page_anomaly_check() -> None:
         min_value=0.1,
         value=50.0,
         step=1.0,
+        key="anomaly_listed_price",
     )
 
-    if st.button("Phân tích giá", type="primary"):
+    if st.button("Phân tích giá", type="primary", key="anomaly_submit"):
         try:
             vehicle = make_vehicle_frame(values, support)
             result = analyze_price_anomaly(
@@ -557,36 +880,14 @@ def page_anomaly_check() -> None:
                 segment_statistics=support["segment_statistics"],
                 config=support["config"],
             )
-
-            col1, col2, col3 = st.columns(3)
-            col1.metric(
-                "Giá dự đoán",
-                f"{result['predicted_price']:,.1f} triệu",
-            )
-            col2.metric(
-                "Giá nhập",
-                f"{result['listed_price']:,.1f} triệu",
-            )
-            col3.metric(
-                "Chênh lệch",
-                f"{result['difference']:+,.1f} triệu",
-            )
-
-            st.subheader("Anomaly score")
-            st.progress(
-                min(max(result["anomaly_score"] / 100, 0.0), 1.0)
-            )
-
-            render_review_status(result)
-            render_anomaly_explanations(result)
-
-            st.write("**Lý do/tín hiệu chính:**", "; ".join(result["reasons"]))
-            st.caption(
-                "Kết quả chỉ hỗ trợ định giá và ưu tiên kiểm duyệt. "
-                "Bất thường không đồng nghĩa chắc chắn nhập sai hoặc gian lận."
-            )
+            st.session_state["anomaly_result"] = result
         except (ValueError, KeyError) as error:
             st.error(str(error))
+
+    result = st.session_state.get("anomaly_result")
+    if isinstance(result, dict):
+        st.divider()
+        render_anomaly_result(result)
 
 
 def read_uploaded_csv(uploaded_file: Any) -> pd.DataFrame:
@@ -599,6 +900,7 @@ def read_uploaded_csv(uploaded_file: Any) -> pd.DataFrame:
 
 def page_batch_check() -> None:
     st.title("📁 Kiểm tra hàng loạt")
+    render_session_note()
     st.write(
         "Tải lên CSV để dự đoán giá và chấm anomaly cho nhiều xe "
         "trong một lần."
@@ -635,43 +937,45 @@ def page_batch_check() -> None:
         "Chọn file CSV",
         type=["csv"],
         max_upload_size=10,
+        key="batch_uploader",
     )
 
-    if uploaded_file is None:
-        return
-
-    try:
-        uploaded_data = read_uploaded_csv(uploaded_file)
-    except Exception as error:
-        st.error(f"Không đọc được CSV: {error}")
-        return
-
-    st.subheader("Xem trước dữ liệu")
-    st.dataframe(uploaded_data.head(20), use_container_width=True)
-
-    if st.button("Chạy kiểm tra hàng loạt", type="primary"):
+    if uploaded_file is not None:
         try:
-            with st.spinner("Đang xử lý dữ liệu..."):
-                results, errors = run_batch_inference(
-                    uploaded_data,
-                    price_model=models["price_model"],
-                    isolation_preprocessor=models[
-                        "isolation_preprocessor"
-                    ],
-                    isolation_forest=models["isolation_forest"],
-                    segment_statistics=support["segment_statistics"],
-                    config=support["config"],
-                    segment_rules=support["segment_rules"],
-                    input_options=support["input_options"],
-                )
-            st.session_state["batch_results"] = results
-            st.session_state["batch_errors"] = errors
-        except ValueError as error:
-            st.error(str(error))
-            return
+            uploaded_data = read_uploaded_csv(uploaded_file)
         except Exception as error:
-            st.exception(error)
-            return
+            st.error(f"Không đọc được CSV: {error}")
+            uploaded_data = None
+
+        if isinstance(uploaded_data, pd.DataFrame):
+            st.subheader("Xem trước dữ liệu")
+            st.dataframe(uploaded_data.head(20), use_container_width=True)
+
+            if st.button(
+                "Chạy kiểm tra hàng loạt",
+                type="primary",
+                key="batch_submit",
+            ):
+                try:
+                    with st.spinner("Đang xử lý dữ liệu..."):
+                        results, errors = run_batch_inference(
+                            uploaded_data,
+                            price_model=models["price_model"],
+                            isolation_preprocessor=models[
+                                "isolation_preprocessor"
+                            ],
+                            isolation_forest=models["isolation_forest"],
+                            segment_statistics=support["segment_statistics"],
+                            config=support["config"],
+                            segment_rules=support["segment_rules"],
+                            input_options=support["input_options"],
+                        )
+                    st.session_state["batch_results"] = results
+                    st.session_state["batch_errors"] = errors
+                except ValueError as error:
+                    st.error(str(error))
+                except Exception as error:
+                    st.exception(error)
 
     results = st.session_state.get("batch_results")
     errors = st.session_state.get("batch_errors")
@@ -719,6 +1023,7 @@ def page_batch_check() -> None:
                 "Bình thường",
                 "Chỉ dự đoán",
             ],
+            key="batch_status_filter",
         )
         display_results = results
         if status_filter != "Tất cả":
@@ -833,4 +1138,15 @@ pages = {
 }
 
 navigation = st.navigation(pages)
+
+with st.sidebar:
+    st.divider()
+    st.toggle(
+        "🌙 Giao diện tối",
+        key="dark_mode",
+        help="Chuyển giao diện sáng/tối trong phiên hiện tại.",
+    )
+
+apply_app_theme(bool(st.session_state.get("dark_mode", False)))
+render_global_banner()
 navigation.run()
