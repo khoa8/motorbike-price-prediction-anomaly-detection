@@ -8,6 +8,8 @@ import pandas as pd
 
 MANUAL_REVIEW_MARGIN = 5.0
 MANUAL_REVIEW_MIN_FLAGS = 2
+MANUAL_REVIEW_MIN_RELATIVE_GAP = 0.50
+MANUAL_REVIEW_MIN_ABSOLUTE_GAP_MILLION = 10.0
 
 
 def predict_price(
@@ -79,6 +81,14 @@ def analyze_price_anomaly(
     )
 
     residual = listed_price - predicted_price
+    absolute_gap = abs(residual)
+    relative_gap = absolute_gap / max(predicted_price, 1e-9)
+    difference_percent = 100.0 * residual / max(predicted_price, 1e-9)
+    flag_large_price_gap = bool(
+        relative_gap >= MANUAL_REVIEW_MIN_RELATIVE_GAP
+        and absolute_gap >= MANUAL_REVIEW_MIN_ABSOLUTE_GAP_MILLION
+    )
+
     residual_scale = max(float(stats["residual_scale"]), 1e-9)
     residual_z = (
         residual - float(stats["residual_median"])
@@ -170,12 +180,17 @@ def analyze_price_anomaly(
         + bool(flag_isolation)
     )
     distance_to_threshold = float(threshold - anomaly_score)
+    near_threshold = bool(distance_to_threshold <= MANUAL_REVIEW_MARGIN)
+    multiple_component_flags = bool(
+        component_flag_count >= MANUAL_REVIEW_MIN_FLAGS
+    )
 
     needs_manual_review = bool(
         not is_anomaly
         and (
-            distance_to_threshold <= MANUAL_REVIEW_MARGIN
-            or component_flag_count >= MANUAL_REVIEW_MIN_FLAGS
+            near_threshold
+            or multiple_component_flags
+            or flag_large_price_gap
         )
     )
 
@@ -218,8 +233,8 @@ def analyze_price_anomaly(
         f"Ngưỡng {threshold:.2f}/100 là mốc phân vị 95 của anomaly score "
         "trong dữ liệu hiệu chỉnh. Score từ ngưỡng này trở lên thuộc nhóm "
         "khoảng 5% tin có điểm bất thường cao nhất và được gắn nhãn "
-        "'Bất thường'. Các tin gần ngưỡng hoặc có nhiều cờ vẫn được đưa vào "
-        "trạng thái 'Cần kiểm tra thủ công'."
+        "'Bất thường'. Các tin gần ngưỡng, có nhiều cờ hoặc chênh giá rất lớn "
+        "vẫn được đưa vào trạng thái 'Cần kiểm tra thủ công'."
     )
 
     residual_explanation = (
@@ -283,21 +298,37 @@ def analyze_price_anomaly(
         "khác thường, không chứng minh tin sai hoặc gian lận."
     )
 
-    status_explanation = {
-        "Bất thường": (
+    manual_review_triggers: list[str] = []
+    if near_threshold:
+        manual_review_triggers.append(
+            f"score chỉ còn cách ngưỡng {max(distance_to_threshold, 0):.2f} điểm"
+        )
+    if multiple_component_flags:
+        manual_review_triggers.append(
+            f"có {component_flag_count}/4 tín hiệu cảnh báo"
+        )
+    if flag_large_price_gap:
+        manual_review_triggers.append(
+            f"giá chênh {abs(difference_percent):.1f}% và {absolute_gap:.1f} triệu"
+        )
+
+    if review_status == "Bất thường":
+        status_explanation = (
             f"Score đã vượt ngưỡng và giá có xu hướng {directional_label}. "
             "Tin nên được ưu tiên kiểm tra."
-        ),
-        "Cần kiểm tra thủ công": (
-            f"Score chưa vượt ngưỡng chính thức nhưng có {component_flag_count}/4 "
-            f"tín hiệu cảnh báo hoặc chỉ còn cách ngưỡng {max(distance_to_threshold, 0):.2f} "
-            f"điểm. Giá có xu hướng {directional_label}; nên kiểm tra thủ công."
-        ),
-        "Bình thường": (
-            "Score cách ngưỡng đủ xa và không có nhiều tín hiệu cảnh báo mạnh. "
+        )
+    elif review_status == "Cần kiểm tra thủ công":
+        status_explanation = (
+            "Score chưa vượt ngưỡng bất thường, nhưng "
+            + "; ".join(manual_review_triggers)
+            + f". Giá có xu hướng {directional_label}; nên kiểm tra thủ công."
+        )
+    else:
+        status_explanation = (
+            "Score cách ngưỡng đủ xa, không có nhiều tín hiệu cảnh báo mạnh "
+            "và chênh lệch giá chưa đồng thời vượt 50% và 10 triệu. "
             "Kết quả vẫn chỉ là tham khảo, không phải bảo đảm giá chắc chắn hợp lý."
-        ),
-    }[review_status]
+        )
 
     reasons: list[str] = []
     if flag_residual_z:
@@ -314,6 +345,11 @@ def analyze_price_anomaly(
         )
     if flag_isolation:
         reasons.append("Isolation Forest đánh dấu mẫu là tách biệt")
+    if flag_large_price_gap:
+        reasons.append(
+            f"Chênh giá {abs(difference_percent):.1f}% và {absolute_gap:.1f} triệu "
+            "vượt quy tắc kiểm tra thủ công"
+        )
     if not reasons:
         reasons.append("Không có cờ thành phần mạnh")
 
@@ -321,6 +357,8 @@ def analyze_price_anomaly(
         "predicted_price": predicted_price,
         "listed_price": listed_price,
         "difference": residual,
+        "difference_percent": difference_percent,
+        "absolute_gap_million": absolute_gap,
         "segment": segment,
         "p01": float(stats["p01"]),
         "p10": float(stats["p10"]),
@@ -333,6 +371,7 @@ def analyze_price_anomaly(
         "flag_minmax": bool(flag_minmax),
         "flag_common_range": bool(flag_common_range),
         "flag_isolation": bool(flag_isolation),
+        "flag_large_price_gap": flag_large_price_gap,
         "residual_contribution": residual_contribution,
         "minmax_contribution": minmax_contribution,
         "common_range_contribution": common_range_contribution,
