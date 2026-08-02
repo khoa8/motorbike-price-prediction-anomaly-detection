@@ -213,8 +213,22 @@ div[data-baseweb="base-input"] {{
     border-radius: 0.85rem;
 }}
 
+# [data-testid="stAlert"] {{
+#     padding: 1.25rem 1.4rem;
+# }}
+
+[data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {{
+    font-size: 1.15rem;
+    line-height: 1.7;
+}}
+
+[data-testid="stAlert"] [data-testid="stMarkdownContainer"] strong {{
+    font-size: 1.5rem;
+    line-height: 1.35;
+}}
+
 .block-container {{
-    padding-top: 1.2rem;
+    padding-top: 3rem;
     padding-bottom: 3rem;
 }}
 
@@ -234,30 +248,22 @@ div[data-baseweb="base-input"] {{
 }}
 
 .app-hero-content {{
-    max-width: 960px;
+    width: 100%;
+    max-width: 1600px;
     color: #FFFFFF;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
-}}
-
-.app-hero-kicker {{
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-bottom: 0.8rem;
+    text-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.85),
+        0 1px 3px rgba(0, 0, 0, 0.95);
 }}
 
 .app-hero-title {{
-    font-size: clamp(1.65rem, 3vw, 2.7rem);
+    margin: 0;
+    padding: 0 1rem;
+    font-size: clamp(1.65rem, 3.3vw, 3.4rem);
     line-height: 1.15;
-    font-weight: 850;
-    margin-bottom: 0.65rem;
-}}
-
-.app-hero-subtitle {{
-    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-    font-weight: 600;
-    opacity: 0.95;
+    font-weight: 900;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
 }}
 
 .score-track {{
@@ -300,11 +306,7 @@ def banner_background() -> str:
         suffix = path.suffix.lower()
         mime = "image/png" if suffix == ".png" else "image/jpeg"
         encoded = base64.b64encode(path.read_bytes()).decode("ascii")
-        return (
-            "linear-gradient(90deg, rgba(4, 12, 28, 0.78), "
-            "rgba(4, 12, 28, 0.38), rgba(4, 12, 28, 0.72)), "
-            f"url('data:{mime};base64,{encoded}')"
-        )
+        return f"url('data:{mime};base64,{encoded}')"
 
     return (
         "radial-gradient(circle at 18% 25%, rgba(34, 211, 238, 0.42), "
@@ -316,13 +318,14 @@ def banner_background() -> str:
 
 def render_global_banner() -> None:
     background = banner_background()
+
     st.markdown(
         f"""
 <div class="app-hero" style="background-image: {background};">
   <div class="app-hero-content">
-    <div class="app-hero-kicker">Đồ án Big Data trong Machine Learning</div>
-    <div class="app-hero-title">Dự đoán giá &amp; phát hiện bất thường giá xe máy</div>
-    <div class="app-hero-subtitle">Scikit-learn · Spark ML · Streamlit</div>
+    <div class="app-hero-title">
+      DỰ ĐOÁN GIÁ VÀ PHÁT HIỆN BẤT THƯỜNG GIÁ XE MÁY
+    </div>
   </div>
 </div>
 """,
@@ -780,15 +783,17 @@ def render_anomaly_explanations(result: dict[str, Any]) -> None:
         hide_index=True,
     )
     st.caption(
-        "Cờ Có/Không cho biết tín hiệu đã vượt điều kiện cảnh báo. "
+        'Cờ "Có/Không" cho biết tín hiệu đã vượt điều kiện cảnh báo. '
         "Điểm đóng góp cho biết mức độ mạnh của tín hiệu; vì vậy cờ bật "
         "không nhất thiết nhận đủ điểm tối đa."
     )
 
+    st.write("**Lý do/tín hiệu chính:**", "; ".join(result["reasons"]))
+
     explanations = result["explanations"]
     with st.expander(
         "📘 Giải thích các chỉ số và lý do bật/tắt từng cờ",
-        expanded=True,
+        expanded=False,
     ):
         st.markdown(f"**Anomaly score**  \n{explanations['score']}")
         st.markdown(f"**Ngưỡng**  \n{explanations['threshold']}")
@@ -833,7 +838,7 @@ def render_anomaly_result(result: dict[str, Any]) -> None:
         f"{relative_gap:+,.1f}%",
     )
 
-    st.subheader("Anomaly score")
+    st.subheader("Anomaly Result")
     render_anomaly_progress(result)
     render_review_status(result)
 
@@ -846,7 +851,6 @@ def render_anomaly_result(result: dict[str, Any]) -> None:
 
     render_anomaly_explanations(result)
 
-    st.write("**Lý do/tín hiệu chính:**", "; ".join(result["reasons"]))
     st.caption(
         "Kết quả chỉ hỗ trợ định giá và ưu tiên kiểm duyệt. "
         "Bất thường không đồng nghĩa chắc chắn nhập sai hoặc gian lận."
@@ -1004,7 +1008,7 @@ def page_batch_check() -> None:
             st.markdown(
                 """
 - **Bất thường:** anomaly score đã vượt ngưỡng top khoảng 5%.
-- **Cần kiểm tra thủ công:** score chưa vượt ngưỡng nhưng gần ngưỡng hoặc có ít nhất 2/4 cờ thành phần bật.
+- **Cần kiểm tra thủ công:** score chưa vượt ngưỡng nhưng gần ngưỡng hoặc có ít nhất 2/4 cờ thành phần bật hoặc chênh lệch giá ít nhất 50% và 10 triệu.
 - **Bình thường:** score cách ngưỡng đủ xa và không có nhiều tín hiệu mạnh.
 - **Residual-Z:** chênh lệch giá đã chuẩn hóa theo phân khúc; dấu âm là thấp hơn kỳ vọng, dấu dương là cao hơn kỳ vọng.
 - **P1-P99:** biên giá rất rộng; nằm ngoài biên là trường hợp cực đoan.
