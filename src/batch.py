@@ -6,7 +6,12 @@ import numpy as np
 import pandas as pd
 
 from .features import prepare_batch_features
-from .inference import MANUAL_REVIEW_MARGIN, MANUAL_REVIEW_MIN_FLAGS
+from .inference import (
+    MANUAL_REVIEW_MARGIN,
+    MANUAL_REVIEW_MIN_ABSOLUTE_GAP_MILLION,
+    MANUAL_REVIEW_MIN_FLAGS,
+    MANUAL_REVIEW_MIN_RELATIVE_GAP,
+)
 
 
 def validate_batch_dataframe(
@@ -126,7 +131,6 @@ def validate_batch_dataframe(
     return valid, invalid
 
 
-
 def run_batch_inference(
     data: pd.DataFrame,
     *,
@@ -184,6 +188,8 @@ def run_batch_inference(
 
     numeric_output_columns = [
         "difference_million",
+        "difference_percent",
+        "absolute_gap_million",
         "residual_z",
         "isolation_raw_score",
         "isolation_normalized_score",
@@ -200,6 +206,7 @@ def run_batch_inference(
         "flag_p01_p99",
         "flag_p10_p90",
         "flag_isolation",
+        "flag_large_price_gap",
         "is_anomaly",
         "needs_manual_review",
     ]
@@ -223,6 +230,22 @@ def run_batch_inference(
             priced["listed_price_million"]
             - priced["predicted_price_million"]
         )
+        priced["absolute_gap_million"] = priced[
+            "difference_million"
+        ].abs()
+        predicted_safe = priced["predicted_price_million"].clip(lower=1e-9)
+        priced["difference_percent"] = (
+            100.0 * priced["difference_million"] / predicted_safe
+        )
+        priced["flag_large_price_gap"] = (
+            priced["difference_percent"]
+            .abs()
+            .ge(100.0 * MANUAL_REVIEW_MIN_RELATIVE_GAP)
+            & priced["absolute_gap_million"].ge(
+                MANUAL_REVIEW_MIN_ABSOLUTE_GAP_MILLION
+            )
+        )
+
         priced["residual_z"] = (
             priced["difference_million"] - priced["residual_median"]
         ) / priced["residual_scale"].clip(lower=1e-9)
@@ -319,6 +342,7 @@ def run_batch_inference(
             & (
                 priced["distance_to_threshold"].le(MANUAL_REVIEW_MARGIN)
                 | priced["component_flag_count"].ge(MANUAL_REVIEW_MIN_FLAGS)
+                | priced["flag_large_price_gap"]
             )
         )
 
@@ -364,6 +388,11 @@ def run_batch_inference(
                 )
             if bool(row["flag_isolation"]):
                 reasons.append("Isolation Forest đánh dấu")
+            if bool(row["flag_large_price_gap"]):
+                reasons.append(
+                    f"Chênh giá {abs(row['difference_percent']):.1f}% và "
+                    f"{row['absolute_gap_million']:.1f} triệu"
+                )
             return "; ".join(reasons) if reasons else "Không có cờ mạnh"
 
         priced["reasons"] = priced.apply(build_reasons, axis=1)
@@ -396,6 +425,8 @@ def run_batch_inference(
         "listed_price_million",
         "predicted_price_million",
         "difference_million",
+        "difference_percent",
+        "absolute_gap_million",
         "segment",
         "p01",
         "p10",
@@ -406,6 +437,7 @@ def run_batch_inference(
         "flag_p01_p99",
         "flag_p10_p90",
         "flag_isolation",
+        "flag_large_price_gap",
         "isolation_normalized_score",
         "residual_contribution",
         "minmax_contribution",
