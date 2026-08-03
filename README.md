@@ -196,13 +196,12 @@ motorbike-price-prediction-anomaly-detection/
 │   ├── deployment_results_summary.json
 │   ├── segment_rules.json
 │   └── segment_statistics.csv
-├── docs/
-│   └── README_project2.md
 ├── examples/
 │   └── motorbike_batch_template.csv
 ├── notebooks/
 │   ├── project2_motorbike_price_anomaly.ipynb
-│   └── project2_motorbike_price_anomaly_streamlit.ipynb
+│   ├── project2_motorbike_price_anomaly_streamlit.ipynb
+│   └── README_project2.md
 ├── reports/
 │   ├── project2_results_summary.json
 │   ├── sklearn_model_comparison.csv
@@ -216,7 +215,6 @@ motorbike-price-prediction-anomaly-detection/
 ├── check_project.py
 ├── generate_requirements.py
 ├── requirements.txt
-├── README_SETUP.md
 └── README.md
 ```
 
