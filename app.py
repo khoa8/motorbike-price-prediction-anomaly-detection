@@ -213,10 +213,6 @@ div[data-baseweb="base-input"] {{
     border-radius: 0.85rem;
 }}
 
-# [data-testid="stAlert"] {{
-#     padding: 1.25rem 1.4rem;
-# }}
-
 [data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {{
     font-size: 1.15rem;
     line-height: 1.7;
@@ -291,6 +287,90 @@ div[data-baseweb="base-input"] {{
     color: var(--muted-text);
     font-size: 0.9rem;
 }}
+
+/* Text typed inside inputs */
+input,
+textarea,
+div[data-baseweb="select"] input {{
+    color: var(--app-text) !important;
+    caret-color: var(--app-text) !important;
+}}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder {{
+    color: var(--muted-text) !important;
+    opacity: 1 !important;
+}}
+
+/* Selected value and dropdown arrow */
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] svg {{
+    color: var(--app-text) !important;
+    fill: var(--app-text) !important;
+}}
+
+/*
+Dropdown menu is mounted outside the normal widget container,
+so it needs separate selectors.
+*/
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] > div,
+div[role="listbox"],
+ul[role="listbox"] {{
+    background: var(--panel-bg) !important;
+    color: var(--app-text) !important;
+    border-color: var(--app-border) !important;
+}}
+
+div[role="option"],
+li[role="option"] {{
+    background: var(--panel-bg) !important;
+    color: var(--app-text) !important;
+}}
+
+div[role="option"]:hover,
+li[role="option"]:hover,
+div[role="option"][aria-selected="true"],
+li[role="option"][aria-selected="true"] {{
+    background: var(--panel-alt) !important;
+    color: var(--app-text) !important;
+}}
+
+/* File uploader */
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] * {{
+    color: var(--app-text) !important;
+}}
+
+[data-testid="stFileUploaderDropzone"] {{
+    background: var(--panel-bg) !important;
+    border-color: var(--app-border) !important;
+}}
+
+/* Secondary and download buttons */
+[data-testid="stDownloadButton"] button,
+[data-testid="stFileUploaderDropzone"] button,
+button[kind="secondary"] {{
+    background: var(--panel-alt) !important;
+    color: var(--app-text) !important;
+    border: 1px solid var(--app-border) !important;
+}}
+
+[data-testid="stDownloadButton"] button:hover,
+[data-testid="stFileUploaderDropzone"] button:hover,
+button[kind="secondary"]:hover {{
+    background: var(--panel-bg) !important;
+    color: var(--app-text) !important;
+    border-color: var(--muted-text) !important;
+}}
+
+/* Expander header */
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] summary {{
+    background: var(--panel-bg) !important;
+    color: var(--app-text) !important;
+}}
 </style>
 """,
         unsafe_allow_html=True,
@@ -338,6 +418,44 @@ def default_index(options: list[str], preferred: str) -> int:
         return options.index(preferred)
     except ValueError:
         return 0
+
+
+def preserve_application_widget_state() -> None:
+    """
+    Keep application widget values when navigating between Streamlit pages.
+    Streamlit may remove a widget key when its widget is not rendered on the
+    current page. Reassigning the key to itself interrupts that cleanup.
+    """
+    field_names = [
+        "brand",
+        "model",
+        "bike_type",
+        "capacity",
+        "origin",
+        "district",
+        "year",
+        "km_unknown",
+        "km",
+        "title",
+        "description",
+    ]
+
+    persistent_keys = [
+        f"{prefix}_{field}"
+        for prefix in ("prediction", "anomaly")
+        for field in field_names
+    ]
+
+    persistent_keys.extend(
+        [
+            "anomaly_listed_price",
+            "batch_status_filter",
+        ]
+    )
+
+    for key in persistent_keys:
+        if key in st.session_state:
+            st.session_state[key] = st.session_state[key]
 
 
 def render_vehicle_inputs(
@@ -1202,5 +1320,6 @@ with st.sidebar:
     )
 
 apply_app_theme(bool(st.session_state.get("dark_mode", False)))
+preserve_application_widget_state()
 render_global_banner()
 navigation.run()
