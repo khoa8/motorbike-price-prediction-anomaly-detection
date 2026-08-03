@@ -333,18 +333,6 @@ def render_global_banner() -> None:
     )
 
 
-def render_session_note() -> None:
-    st.markdown(
-        """
-<div class="state-note">
-Kết quả và dữ liệu nhập được giữ khi chuyển trang trong cùng phiên làm việc.
-Chúng được đặt lại khi tải lại toàn bộ trang hoặc mở một phiên mới.
-</div>
-""",
-        unsafe_allow_html=True,
-    )
-
-
 def default_index(options: list[str], preferred: str) -> int:
     try:
         return options.index(preferred)
@@ -576,15 +564,28 @@ def page_evaluation() -> None:
 
     if "feature_importance" in artifacts:
         st.subheader("Feature importance của deployment model")
-        chart_data = (
+
+        feature_chart_data = (
             artifacts["feature_importance"]
-            .head(15)
-            .set_index("source_feature")["importance"]
+            .head(15)[["source_feature", "importance"]]
+            .copy()
         )
-        st.bar_chart(chart_data)
+
+        st.bar_chart(
+            feature_chart_data,
+            x="source_feature",
+            y="importance",
+            horizontal=True,
+            sort="-importance",
+            x_label="Nhóm đặc trưng",
+            y_label="Mức độ quan trọng",
+            height=520,
+            width="stretch",
+        )
+
         st.dataframe(
             artifacts["feature_importance"].head(20).round(4),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -635,7 +636,6 @@ def render_prediction_result(result: dict[str, Any]) -> None:
 
 def page_price_prediction() -> None:
     st.title("💰 Dự đoán giá xe")
-    render_session_note()
     models = load_models()
     support = load_support_data()
 
@@ -859,7 +859,6 @@ def render_anomaly_result(result: dict[str, Any]) -> None:
 
 def page_anomaly_check() -> None:
     st.title("🚨 Kiểm tra giá bất thường")
-    render_session_note()
     models = load_models()
     support = load_support_data()
 
@@ -904,7 +903,6 @@ def read_uploaded_csv(uploaded_file: Any) -> pd.DataFrame:
 
 def page_batch_check() -> None:
     st.title("📁 Kiểm tra hàng loạt")
-    render_session_note()
     st.write(
         "Tải lên CSV để dự đoán giá và chấm anomaly cho nhiều xe "
         "trong một lần."
@@ -1057,10 +1055,62 @@ def page_batch_check() -> None:
         if not scored.empty:
             st.subheader("Top anomaly score")
             top_scores = (
-                scored.nlargest(15, "anomaly_score")
-                .set_index("source_row")["anomaly_score"]
+                scored.nlargest(
+                    15,
+                    "anomaly_score",
+                )[["source_row", "anomaly_score"]]
+                .copy()
             )
-            st.bar_chart(top_scores)
+            top_scores["source_row"] = (
+                top_scores["source_row"]
+                .astype(int)
+                .astype(str)
+            )
+            st.bar_chart(
+                top_scores,
+                x="source_row",
+                y="anomaly_score",
+                horizontal=True,
+                sort="-anomaly_score",
+                x_label="Dòng trong file CSV",
+                y_label="Anomaly score",
+                height=480,
+                width="stretch",
+            )
+
+        st.subheader("Phân bố trạng thái anomaly")
+        status_order = [
+            "Bất thường",
+            "Cần kiểm tra thủ công",
+            "Bình thường",
+            "Chỉ dự đoán",
+        ]
+        status_series = (
+            results["review_status"]
+            .fillna("Chỉ dự đoán")
+            .value_counts()
+        )
+        status_counts = pd.DataFrame(
+            {
+                "review_status": status_order,
+                "row_count": [
+                    int(status_series.get(status, 0))
+                    for status in status_order
+                ],
+            }
+        )
+        st.bar_chart(
+            status_counts,
+            x="review_status",
+            y="row_count",
+            color="#2563EB",
+            horizontal=True,
+            sort=False,
+            x_label="Trạng thái",
+            y_label="Số dòng",
+            height=300,
+            width="stretch",
+        )
 
     if isinstance(errors, pd.DataFrame) and not errors.empty:
         st.warning(f"Có {len(errors):,} dòng không hợp lệ.")
@@ -1102,20 +1152,7 @@ def page_team() -> None:
 
 
 pages = {
-    "Project": [
-        st.Page(
-            page_business_problem,
-            title="Business Problem",
-            icon="🎯",
-            default=True,
-        ),
-        st.Page(
-            page_evaluation,
-            title="Evaluation & Report",
-            icon="📊",
-        ),
-    ],
-    "Ứng dụng": [
+    "Application": [
         st.Page(
             page_price_prediction,
             title="Price Prediction",
@@ -1132,7 +1169,20 @@ pages = {
             icon="📁",
         ),
     ],
-    "Nhóm": [
+    "Project": [
+        st.Page(
+            page_business_problem,
+            title="Business Problem",
+            icon="🎯",
+            default=True,
+        ),
+        st.Page(
+            page_evaluation,
+            title="Evaluation & Report",
+            icon="📊",
+        ),
+    ],
+    "Team": [
         st.Page(
             page_team,
             title="Team Information",
@@ -1146,9 +1196,9 @@ navigation = st.navigation(pages)
 with st.sidebar:
     st.divider()
     st.toggle(
-        "🌙 Giao diện tối",
+        "🌙 Dark mode",
         key="dark_mode",
-        help="Chuyển giao diện sáng/tối trong phiên hiện tại.",
+        help="Chuyển giao diện sáng/tối.",
     )
 
 apply_app_theme(bool(st.session_state.get("dark_mode", False)))

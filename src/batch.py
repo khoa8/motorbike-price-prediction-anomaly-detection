@@ -451,7 +451,6 @@ def run_batch_inference(
         "review_status",
         "anomaly_type",
         "reasons",
-        "used_global_fallback",
     ]
 
     return prepared[result_columns].sort_values("source_row"), invalid
