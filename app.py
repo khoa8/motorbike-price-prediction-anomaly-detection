@@ -1264,7 +1264,17 @@ def page_team() -> None:
 ### Nhóm 2
 
 - Nguyễn Minh Khoa
+    - Anomaly check, Batch check
+    - Tuning Random Forest model
+    - Deploy Streamlit
+    - Documents
+
 - Nguyễn Hoàng Quỳnh Anh
+    - EDA
+    - Price Prediction
+    - Design UI, Testing
+    - Documents
+
 """
     )
 
