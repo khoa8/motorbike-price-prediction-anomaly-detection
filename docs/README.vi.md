@@ -186,6 +186,15 @@ motorbike-price-prediction-anomaly-detection/
 ├── app.py
 ├── assets/
 │   └── motorbike_banner.png
+├── docs/
+│   ├── README.vi.md
+│   └── images/
+│       ├── app-overview.png
+│       ├── price-prediction.png
+│       ├── anomaly-check-normal.png
+│       ├── anomaly-check-review.png
+│       ├── anomaly-check.png
+│       └── batch-check.png
 ├── artifacts/
 │   ├── price_model.joblib
 │   ├── isolation_preprocessor.joblib

@@ -37,7 +37,7 @@ The user enters vehicle information such as brand, model, year, bike type, engin
 
 The application compares the entered asking price with the predicted price and combines several anomaly signals into one score. It also exposes the individual signals and explains why a listing receives its final review status.
 
-![Anomaly Check page](docs/images/anomaly-check.png)
+![Anomaly Check page](docs/images/anomaly-check-normal.png)
 
 ### Batch Check
 
@@ -224,6 +224,8 @@ A listing is classified as **Anomalous** when its composite anomaly score reache
 anomaly_score >= 48.138
 ```
 
+![Anomaly Check anomalous](docs/images/anomaly-check.png)
+
 ### Needs Manual Review
 
 A listing remains below the hard anomaly threshold but is marked **Needs Manual Review** when at least one of the following conditions is met:
@@ -233,6 +235,8 @@ A listing remains below the hard anomaly threshold but is marked **Needs Manual 
 - the absolute price difference is at least **50%** of the predicted price **and** at least **10 million VND**.
 
 The 50% / 10-million-VND condition is therefore a **manual-review trigger**, not the hard anomaly definition.
+
+![Anomaly Check need-review-case](docs/images/anomaly-check-review.png)
 
 ### Normal
 
@@ -331,6 +335,8 @@ motorbike-price-prediction-anomaly-detection/
 │   └── images/
 │       ├── app-overview.png
 │       ├── price-prediction.png
+│       ├── anomaly-check-normal.png
+│       ├── anomaly-check-review.png
 │       ├── anomaly-check.png
 │       └── batch-check.png
 ├── examples/
