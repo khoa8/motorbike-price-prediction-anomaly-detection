@@ -271,6 +271,24 @@ python -m streamlit run app.py
 
 Mở `http://localhost:8501`.
 
+## Automated Testing & CI
+
+### Cách Test Local
+
+```bash
+python -m pip install -r requirements-dev.txt
+ruff check app.py src tests check_project.py generate_requirements.py
+python -m pytest -q
+```
+
+CI tự động:
+
+1. cài đặt project và development dependencies;
+2. kiểm tra chất lượng Python code bằng Ruff;
+3. compile source code;
+4. kiểm tra deployment artifacts bằng `check_project.py`;
+5. chạy bộ unit tests bằng pytest.
+
 ## Reproduce the Analysis
 
 Notebook được thiết kế để chạy trên Google Colab.
