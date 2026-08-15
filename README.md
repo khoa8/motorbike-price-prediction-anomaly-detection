@@ -62,7 +62,7 @@ The analysis uses used-motorbike listing data from **Ho Chi Minh City** with a d
 
 For regression modeling, extreme price values below **1 million VND** or above **1 billion VND** are excluded to reduce the effect of likely input errors and extreme outliers on model training. Positive-price rows remain available for anomaly analysis.
 
-> **Data usage notice:** The raw dataset is not redistributed in this repository. It is used for educational and research purposes. Ownership, licensing, and source terms should be reviewed before redistribution or commercial use.
+> **Data usage notice:** The source dataset file is not included in this repository. Small samples may appear in notebook outputs for analytical illustration. The data is used for educational and research purposes; ownership, licensing, and source terms should be reviewed before redistribution or commercial use.
 
 ---
 
@@ -248,7 +248,7 @@ This three-level design keeps borderline cases visible without incorrectly prese
 
 ## Original Anomaly Benchmark: scikit-learn vs Spark
 
-Before the deployment pipeline was finalized, anomaly detection was also compared between scikit-learn and Spark implementations.
+Before the deployment pipeline was finalized, anomaly detection was also compared between scikit-learn and Spark implementations. The fourth unsupervised signal differs between the two benchmark implementations: the scikit-learn pipeline uses **Isolation Forest**, while the Spark pipeline uses **KMeans distance**. The final Streamlit deployment uses Isolation Forest.
 
 | Result | scikit-learn | Spark |
 |---|---:|---:|
@@ -342,9 +342,7 @@ motorbike-price-prediction-anomaly-detection/
 ├── examples/
 │   └── motorbike_batch_template.csv
 ├── notebooks/
-│   ├── project2_motorbike_price_anomaly.ipynb
-│   ├── project2_motorbike_price_anomaly_streamlit.ipynb
-│   └── README_project2.md
+│   └── motorbike_price_modeling_and_anomaly_detection.ipynb
 ├── reports/
 │   ├── project2_results_summary.json
 │   ├── sklearn_feature_importance.csv
@@ -360,8 +358,6 @@ motorbike-price-prediction-anomaly-detection/
 ├── requirements.txt
 └── README.md
 ```
-
-> The notebook filenames above reflect the current repository state. They can be simplified during the notebook portfolio-cleanup step without changing the modeling results.
 
 ---
 
@@ -417,18 +413,18 @@ http://localhost:8501
 
 ## Reproducing the Analysis
 
-The notebooks were developed to run in **Google Colab**.
+The analysis notebook was developed to run in **Google Colab**.
 
-1. Open a notebook from the [`notebooks/`](notebooks/) directory.
-2. Make the source dataset `data_motobikes.xlsx` available to the notebook, using `/content` when following the existing Colab workflow.
+1. Open [`notebooks/motorbike_price_modeling_and_anomaly_detection.ipynb`](notebooks/motorbike_price_modeling_and_anomaly_detection.ipynb).
+2. Make the source dataset `data_motobikes.xlsx` available to the notebook. When using the existing Colab workflow, the notebook can prompt for an upload if the file is not already available in `/content`.
 3. Select **Runtime → Run all**.
 4. Review or export the generated outputs.
 
-Runtime recorded for the current analysis:
+Runtime recorded for the latest notebook run:
 
 ```text
 Python 3.12.13
-Java 17
+Java 21
 PySpark 4.0.3
 ```
 
