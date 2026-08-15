@@ -1,183 +1,317 @@
-# Motorbike Price Prediction & Price Anomaly Detection
+# Motorbike Price Prediction & Anomaly Detection
 
-Hệ thống dự đoán giá xe máy cũ và phát hiện các tin có giá bất thường trên dữ liệu tin đăng tại TP.HCM. Project kết hợp:
+An end-to-end machine learning project for **used-motorbike price estimation** and **price anomaly detection** on listing data from Ho Chi Minh City, Vietnam.
 
-- **scikit-learn** cho mô hình Machine Learning truyền thống;
-- **Apache Spark ML** cho phần benchmark Big Data / Distributed Machine Learning;
-- **Streamlit** để triển khai ứng dụng tương tác.
+The project combines **scikit-learn** for model development, **Apache Spark ML** for distributed-machine-learning benchmarking, and **Streamlit** for interactive deployment.
 
-> **Trạng thái project:** phiên bản hiện tại được hoàn thiện cho buổi thuyết trình và demo. Sau buổi demo, repository sẽ tiếp tục được chuẩn hóa sang tiếng Anh, tinh gọn notebook, bổ sung test và hoàn thiện tài liệu theo chuẩn portfolio.
+[Live Streamlit App](https://motorbike-price-analytics.streamlit.app/) · [Vietnamese README](docs/README.vi.md)
 
-## Live Demo
+![Motorbike Price Analytics application overview](docs/images/app-overview.png)
 
-**Streamlit application:**  
-https://motorbike-price-analytics.streamlit.app/
+## Overview
 
-Ứng dụng gồm ba chức năng chính:
+Used-motorbike listings can vary substantially in price even for vehicles that appear similar. This project addresses two related problems:
 
-1. **Price Prediction** — dự đoán mức giá tham khảo cho một xe.
-2. **Anomaly Check** — đánh giá một giá đăng cụ thể và giải thích các tín hiệu bất thường.
-3. **Batch Check** — xử lý nhiều tin cùng lúc bằng file CSV.
+1. **Price prediction** — estimate a reference market price from vehicle and listing attributes.
+2. **Price anomaly detection** — identify listings whose asking prices are unusually low or high relative to model expectations and historical segment behavior.
 
-## Project Overview
+The deployed application provides three workflows:
 
-Project giải quyết hai bài toán liên quan nhưng khác nhau:
+- **Price Prediction** for a single motorbike;
+- **Anomaly Check** for a specific asking price;
+- **Batch Check** for multiple listings uploaded as CSV.
 
-### 1. Price Prediction
+The anomaly output is designed as a **decision-support signal**, not as proof that a listing is incorrect or fraudulent.
 
-Dự đoán giá xe theo các đặc điểm như:
+---
 
-- thương hiệu và dòng xe;
-- năm đăng ký, tuổi xe và số kilomet;
-- loại xe, dung tích và xuất xứ;
-- quận/huyện;
-- độ dài tiêu đề và mô tả;
-- phân khúc xe;
-- một số engineered features phục vụ deployment.
+## Application
 
-### 2. Price Anomaly Detection
+### Price Prediction
 
-Phát hiện các tin có giá quá thấp hoặc quá cao bằng bốn tín hiệu thành phần:
+The user enters vehicle information such as brand, model, year, bike type, engine capacity, origin, district, mileage, title, and description. The application returns a reference price together with segment-level market context.
 
-1. **Residual-Z** theo phân khúc;
-2. giá nằm ngoài **P1–P99**;
-3. giá nằm ngoài **P10–P90**;
-4. **Isolation Forest**.
+![Price Prediction page](docs/images/price-prediction.png)
 
-Bốn tín hiệu được kết hợp thành `anomaly_score`. Ngưỡng cảnh báo được hiệu chỉnh theo top khoảng 5% điểm anomaly trong dữ liệu lịch sử.
+### Anomaly Check
 
-Kết quả chỉ dùng để **hỗ trợ định giá và ưu tiên kiểm duyệt**. Một tin bị gắn cờ không đồng nghĩa chắc chắn nhập sai hoặc gian lận.
+The application compares the entered asking price with the predicted price and combines several anomaly signals into one score. It also exposes the individual signals and explains why a listing receives its final review status.
+
+![Anomaly Check page](docs/images/anomaly-check-normal.png)
+
+### Batch Check
+
+A CSV file can be processed in one run to generate price predictions and, when `listed_price_million` is supplied, anomaly results for multiple listings.
+
+![Batch Check page](docs/images/batch-check.png)
+
+A sample input file is available at [`examples/motorbike_batch_template.csv`](examples/motorbike_batch_template.csv).
+
+---
 
 ## Dataset
 
-Dữ liệu gồm các tin đăng xe máy cũ tại TP.HCM trước ngày **01/07/2025**.
+The analysis uses used-motorbike listing data from **Ho Chi Minh City** with a data cutoff of **July 1, 2025**.
 
-| Nội dung | Số lượng |
+| Dataset stage | Rows |
 |---|---:|
-| Dòng dữ liệu gốc | 7,208 |
-| Dòng dùng huấn luyện regression | 7,141 |
-| Dòng có giá dương dùng cho anomaly detection | 7,193 |
-| Số phân khúc | 93 |
+| Raw listings | 7,208 |
+| Regression training/evaluation data | 7,141 |
+| Positive-price rows used for anomaly analysis | 7,193 |
+| Derived market segments | 93 |
 
-Dữ liệu regression loại các mức giá nhỏ hơn 1 triệu hoặc lớn hơn 1 tỷ đồng để tránh huấn luyện trên các trường hợp có khả năng là lỗi nhập hoặc cực trị. Các dòng có giá dương này vẫn được giữ trong tập anomaly detection.
+For regression modeling, extreme price values below **1 million VND** or above **1 billion VND** are excluded to reduce the effect of likely input errors and extreme outliers on model training. Positive-price rows remain available for anomaly analysis.
 
-> **Data usage notice:** dữ liệu gốc không được đưa vào repository. Dataset chỉ được sử dụng cho mục đích học tập và nghiên cứu; cần kiểm tra quyền sở hữu và điều khoản sử dụng trước khi tái phân phối hoặc sử dụng thương mại.
+> **Data usage notice:** The source dataset file is not included in this repository. Small samples may appear in notebook outputs for analytical illustration. The data is used for educational and research purposes; ownership, licensing, and source terms should be reviewed before redistribution or commercial use.
 
-## Modeling Design
+---
 
-### Data preparation
+## Modeling Approach
 
-- Chuyển giá về đơn vị triệu đồng.
-- Tạo `age = 2025 - year`.
-- Xử lý missing values và duplicate.
-- Trích xuất quận/huyện.
-- Tạo độ dài tiêu đề và mô tả.
-- Tạo 93 phân khúc theo thương hiệu, dòng xe, năm, loại xe và dung tích.
-- Dùng `log1p(price)` khi huấn luyện và `expm1` khi đưa prediction về đơn vị triệu đồng.
+### Data Preparation and Feature Engineering
 
-### Train/test
+The workflow includes:
 
-Regression sử dụng 7,141 dòng:
+- price normalization to **million VND**;
+- duplicate and missing-value handling;
+- vehicle age derived from registration year;
+- district extraction;
+- title and description length features;
+- mileage transformations such as log mileage and mileage per year;
+- keyword-based indicators for imported, ABS-equipped, collectible, and high-capacity motorcycles;
+- combined brand-model and market-segment features.
 
-| Tập | Số dòng |
-|---|---:|
-| Train | 5,712 |
-| Test | 1,429 |
+The price target is modeled using `log1p(price)` and transformed back to million VND with `expm1`.
 
-Train/test được dùng chung cho benchmark scikit-learn và Spark. Metric chính để lựa chọn model là **MAE**.
+### Market Segmentation
 
-### Out-of-fold prediction
+Listings are grouped into **93 market segments** using combinations of vehicle characteristics such as brand, model, registration period, bike type, and engine capacity.
 
-Anomaly detection sử dụng **5-fold out-of-fold prediction** để mỗi dòng được dự đoán bởi một model không học trực tiếp từ chính dòng đó. Cách này giúp residual phản ánh sai số thực tế hơn so với prediction in-sample.
+Segment information is used both as a model feature and as local market context for residual and percentile-based anomaly signals.
 
-## Key Results
+### scikit-learn and Spark Benchmarking
 
-### Benchmark notebook
+The notebook benchmarks machine-learning models in both **scikit-learn** and **Spark ML** on a common train/test design.
 
 | Environment | Selected model | MAE | RMSE | R² |
 |---|---|---:|---:|---:|
 | scikit-learn | Random Forest | **10.129** | 33.262 | 0.465 |
 | Spark ML | Random Forest | **10.543** | 33.431 | 0.460 |
 
-Random Forest được chọn trong từng môi trường vì có MAE thấp nhất. Linear Regression có RMSE và R² tốt hơn trong một số thử nghiệm, cho thấy không có một model tốt nhất trên mọi metric.
+Metrics are reported in **million VND** for MAE and RMSE.
 
-### Deployment model
+Random Forest achieved the lowest MAE in each environment and was therefore selected as the main benchmark model. Spark is used here as a distributed-ML benchmark; the deployed Streamlit application uses scikit-learn artifacts.
 
-Ứng dụng Streamlit không dùng nguyên trạng benchmark Random Forest. Deployment sử dụng **Premium-aware Random Forest**, bổ sung engineered features và sample weights để cải thiện nhóm xe giá cao.
+---
 
-#### Test-set evaluation
+## Deployment Model
+
+The Streamlit application uses a **Premium-aware Random Forest**, rather than the original benchmark Random Forest unchanged.
+
+The deployment workflow adds engineered features and price-based sample weighting so the model pays more attention to higher-priced listings, where the benchmark model produced substantially larger errors.
+
+### Test-set Evaluation
 
 | Model | MAE | RMSE | R² | Premium MAE |
 |---|---:|---:|---:|---:|
 | Benchmark Random Forest | 10.129 | 33.262 | 0.465 | 89.764 |
-| Premium-aware Random Forest | **9.773** | **31.649** | **0.516** | **80.602** |
+| **Premium-aware Random Forest** | **9.773** | **31.649** | **0.516** | **80.602** |
 
-#### 5-fold OOF evaluation
+### 5-Fold Out-of-Fold Evaluation
 
 | Model | MAE | RMSE | R² | Premium MAE |
 |---|---:|---:|---:|---:|
 | Benchmark RF | 10.110 | 32.089 | 0.491 | 89.341 |
-| Premium-aware RF | **9.741** | **30.589** | **0.538** | **81.032** |
+| **Premium-aware RF** | **9.741** | **30.589** | **0.538** | **81.032** |
 
-So với benchmark OOF:
+Compared with the benchmark in 5-fold out-of-fold evaluation, the deployment model achieved approximately:
 
-- overall MAE giảm khoảng **3.66%**;
-- premium MAE giảm khoảng **9.30%**;
-- premium RMSE giảm khoảng **5.52%**.
+- **3.66% lower overall MAE**;
+- **9.30% lower premium MAE**;
+- **5.52% lower premium RMSE**.
 
-### Deployment anomaly calibration
+The Premium-aware Random Forest is therefore retained as the deployment price model.
 
-| Nội dung | Giá trị |
+---
+
+## Price Anomaly Detection
+
+Price anomaly detection is intentionally separated from price prediction. A large prediction error alone does not automatically determine the final anomaly status.
+
+The deployed pipeline combines **four complementary signals**.
+
+### 1. Residual-Z
+
+For a listing with asking price `y` and predicted price `ŷ`:
+
+```text
+residual = listed price - predicted price
+```
+
+The residual is standardized against residual behavior in the corresponding market segment.
+
+A component flag is raised when:
+
+```text
+|Residual-Z| >= 3
+```
+
+For anomaly scoring, the normalized Residual-Z signal contributes up to **40 points**.
+
+### 2. P1–P99 Extreme Range
+
+The asking price is compared with the historical **1st and 99th percentiles** of its segment.
+
+A component flag is raised when the price falls outside this broad historical range.
+
+This signal contributes up to **20 points**.
+
+### 3. P10–P90 Common Range
+
+P10–P90 represents the central range containing roughly 80% of historical prices in a segment.
+
+Listings outside this range receive a continuous score based on how far they lie beyond the range relative to its width.
+
+This signal contributes up to **20 points**.
+
+### 4. Isolation Forest
+
+Isolation Forest evaluates the vehicle characteristics together with the deployment predicted price and Residual-Z to detect feature combinations that are unusual relative to the calibration data.
+
+Its normalized anomaly signal contributes up to **20 points**.
+
+### Composite Anomaly Score
+
+The final score is a weighted combination of the four signals:
+
+| Signal | Maximum contribution |
 |---|---:|
-| Anomaly threshold | 48.138 |
-| Tổng tin trong top anomaly | 360 |
-| Tin quá rẻ | 114 |
-| Tin quá đắt | 246 |
+| Residual-Z | 40 |
+| P1–P99 | 20 |
+| P10–P90 | 20 |
+| Isolation Forest | 20 |
+| **Total** | **100** |
 
-### Original scikit-learn and Spark anomaly benchmark
+The production anomaly threshold is:
 
-| Nội dung | scikit-learn | Spark |
+```text
+48.138 / 100
+```
+
+This threshold is calibrated from the **95th percentile** of anomaly scores, corresponding approximately to the highest-scoring 5% of calibration observations.
+
+A listing is classified as **Anomalous** when:
+
+```text
+anomaly_score >= 48.138
+```
+
+The deployment calibration identifies **360 anomaly listings**.
+
+> The anomaly score is **not a probability of fraud**. It measures how unusual a listing appears under the project's scoring framework.
+
+---
+
+## Review Status Logic
+
+The application uses three review statuses rather than treating every suspicious case as a hard anomaly.
+
+### Anomalous
+
+A listing is classified as **Anomalous** when its composite anomaly score reaches or exceeds the calibrated threshold.
+
+```text
+anomaly_score >= 48.138
+```
+
+![Anomaly Check anomalous](docs/images/anomaly-check.png)
+
+### Needs Manual Review
+
+A listing remains below the hard anomaly threshold but is marked **Needs Manual Review** when at least one of the following conditions is met:
+
+- the anomaly score is within **5 points** below the threshold;
+- at least **2 of the 4 component flags** are active;
+- the absolute price difference is at least **50%** of the predicted price **and** at least **10 million VND**.
+
+The 50% / 10-million-VND condition is therefore a **manual-review trigger**, not the hard anomaly definition.
+
+![Anomaly Check need-review-case](docs/images/anomaly-check-review.png)
+
+### Normal
+
+A listing is classified as **Normal** when it is below the anomaly threshold and does not meet any manual-review condition.
+
+This three-level design keeps borderline cases visible without incorrectly presenting them as confirmed anomalies.
+
+---
+
+## Original Anomaly Benchmark: scikit-learn vs Spark
+
+Before the deployment pipeline was finalized, anomaly detection was also compared between scikit-learn and Spark implementations. The fourth unsupervised signal differs between the two benchmark implementations: the scikit-learn pipeline uses **Isolation Forest**, while the Spark pipeline uses **KMeans distance**. The final Streamlit deployment uses Isolation Forest.
+
+| Result | scikit-learn | Spark |
 |---|---:|---:|
-| Tin bị gắn cờ | 360 | 367 |
-| Quá rẻ | 108 | 108 |
-| Quá đắt | 252 | 259 |
+| Flagged anomalies | 360 | 367 |
+| Unusually cheap | 108 | 108 |
+| Unusually expensive | 252 | 259 |
 
-Hai môi trường cùng cảnh báo 307 tin. Agreement rate là 98.43%, trong khi Jaccard similarity trên riêng tập anomaly là 0.731.
+The two implementations flagged **307 listings in common**, with:
 
-> **Lưu ý:** các số liệu benchmark và deployment thuộc hai giai đoạn khác nhau. Streamlit sử dụng deployment artifacts và ngưỡng 48.138, không sử dụng trực tiếp toàn bộ kết quả anomaly benchmark ban đầu.
+- **98.43% overall agreement**;
+- **0.731 anomaly-set Jaccard similarity**.
 
-## Streamlit Application
+These benchmark results belong to the original modeling comparison and should not be confused with the final Streamlit deployment calibration.
 
-### Price Prediction
+---
 
-Người dùng nhập thông tin xe và nhận:
+## Out-of-Fold Predictions
 
-- giá dự đoán;
-- phân khúc;
-- P10 và P90 của phân khúc;
-- cảnh báo khi xe thuộc nhóm hiếm hoặc nhóm giá cao.
+Residual-based anomaly detection can become overly optimistic if every training observation is scored by a model that was fitted on that same observation.
 
-### Anomaly Check
+To reduce this effect, the deployment workflow uses **5-fold out-of-fold (OOF) predictions** for regression-training rows during anomaly calibration. Each OOF prediction is produced by a model that did not train on that observation.
 
-Ngoài giá dự đoán, ứng dụng hiển thị:
+This provides more realistic residuals for the residual-based anomaly signals and model evaluation.
 
-- giá đăng và mức chênh lệch;
-- anomaly score và threshold;
-- trạng thái **Bình thường**, **Cần kiểm tra thủ công** hoặc **Bất thường**;
-- từng cờ Residual-Z, P1–P99, P10–P90 và Isolation Forest;
-- lý do và điểm đóng góp của từng tín hiệu.
+---
 
-### Batch Check
+## Project Workflow
 
-Người dùng có thể tải CSV để:
+```text
+Raw Motorbike Listings
+        |
+        v
+Data Cleaning & Feature Engineering
+        |
+        +--------------------------+
+        |                          |
+        v                          v
+scikit-learn Benchmarks       Spark ML Benchmarks
+        |
+        v
+Premium-aware Random Forest
+        |
+        v
+5-Fold OOF Predictions
+        |
+        v
+Segment Residual Statistics
++ P1/P10/P90/P99
++ Isolation Forest
+        |
+        v
+Composite Anomaly Score
+        |
+        v
+Review Status
+(Normal / Manual Review / Anomalous)
+        |
+        v
+Streamlit Application
+(Single Prediction / Anomaly Check / Batch Check)
+```
 
-- dự đoán giá cho nhiều dòng;
-- chấm anomaly cho các dòng có `listed_price_million`;
-- lọc theo trạng thái;
-- tải kết quả và danh sách dòng lỗi;
-- xem top anomaly score và phân bố trạng thái.
-
-File mẫu có sẵn trong `examples/motorbike_batch_template.csv`.
+---
 
 ## Repository Structure
 
@@ -186,27 +320,34 @@ motorbike-price-prediction-anomaly-detection/
 ├── .streamlit/
 │   └── config.toml
 ├── app.py
-├── assets/
-│   └── motorbike_banner.png
 ├── artifacts/
-│   ├── price_model.joblib
-│   ├── isolation_preprocessor.joblib
-│   ├── isolation_forest.joblib
 │   ├── deployment_config.json
 │   ├── deployment_results_summary.json
+│   ├── isolation_forest.joblib
+│   ├── isolation_preprocessor.joblib
+│   ├── price_model.joblib
 │   ├── segment_rules.json
 │   └── segment_statistics.csv
+├── assets/
+│   └── motorbike_banner.png
+├── docs/
+│   ├── README.vi.md
+│   └── images/
+│       ├── app-overview.png
+│       ├── price-prediction.png
+│       ├── anomaly-check-normal.png
+│       ├── anomaly-check-review.png
+│       ├── anomaly-check.png
+│       └── batch-check.png
 ├── examples/
 │   └── motorbike_batch_template.csv
 ├── notebooks/
-│   ├── project2_motorbike_price_anomaly.ipynb
-│   ├── project2_motorbike_price_anomaly_streamlit.ipynb
-│   └── README_project2.md
+│   └── motorbike_price_modeling_and_anomaly_detection.ipynb
 ├── reports/
-│   ├── project2_results_summary.json
+│   ├── results_summary.json
+│   ├── sklearn_feature_importance.csv
 │   ├── sklearn_model_comparison.csv
 │   ├── spark_model_comparison.csv
-│   ├── sklearn_feature_importance.csv
 │   └── spark_rf_feature_importance.csv
 ├── src/
 │   ├── batch.py
@@ -218,21 +359,20 @@ motorbike-price-prediction-anomaly-detection/
 └── README.md
 ```
 
-### Notebook roles
-
-- `project2_motorbike_price_anomaly.ipynb`: notebook gốc cho benchmark scikit-learn, Spark và anomaly detection.
-- `project2_motorbike_price_anomaly_streamlit.ipynb`: mở rộng notebook gốc bằng phần feature engineering, lựa chọn deployment model, hiệu chỉnh anomaly và xuất Streamlit artifacts.
+---
 
 ## Run Locally
 
-### 1. Clone repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/khoa8/motorbike-price-prediction-anomaly-detection.git
 cd motorbike-price-prediction-anomaly-detection
 ```
 
-### 2. Create environment
+### 2. Create and activate a virtual environment
+
+macOS / Linux:
 
 ```bash
 python3 -m venv .venv
@@ -241,7 +381,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Trên Windows PowerShell:
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -250,7 +390,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-### 3. Validate project
+### 3. Validate the project
 
 ```bash
 python -m compileall app.py src
@@ -263,51 +403,72 @@ python check_project.py
 python -m streamlit run app.py
 ```
 
-Mở `http://localhost:8501`.
+Then open:
 
-## Reproduce the Notebooks
+```text
+http://localhost:8501
+```
 
-Notebook được thiết kế để chạy trên Google Colab.
+---
 
-1. Mở notebook trong thư mục `notebooks/`.
-2. Đặt `data_motobikes.xlsx` trong `/content`, hoặc upload khi notebook yêu cầu.
-3. Chọn `Runtime -> Run all`.
-4. Tải các output từ `/content/project2_outputs/`.
+## Reproducing the Analysis
 
-Runtime được ghi nhận trong lần chạy hiện tại:
+The analysis notebook was developed to run in **Google Colab**.
+
+1. Open [`notebooks/motorbike_price_modeling_and_anomaly_detection.ipynb`](notebooks/motorbike_price_modeling_and_anomaly_detection.ipynb).
+2. Make the source dataset `data_motobikes.xlsx` available to the notebook. When using the existing Colab workflow, the notebook can prompt for an upload if the file is not already available in `/content`.
+3. Select **Runtime → Run all**.
+4. Review or export the generated outputs.
+
+Runtime recorded for the latest notebook run:
 
 ```text
 Python 3.12.13
-Java 17
+Java 21
 PySpark 4.0.3
 ```
 
-Phiên bản runtime thực tế có thể thay đổi theo môi trường Colab.
+The exact Colab runtime may change over time.
+
+---
 
 ## Limitations
 
-- Dataset không có ground-truth anomaly, nên chưa thể báo cáo Precision, Recall hoặc F1 thực sự.
-- Anomaly weights và top-5% threshold là heuristic.
-- Các phân khúc hiếm và xe trên 100 triệu có ít mẫu và sai số cao hơn.
-- P1/P99 có thể chưa ổn định trong các phân khúc nhỏ.
-- Dữ liệu chỉ là snapshot tại TP.HCM trước ngày 01/07/2025.
-- Mô hình cần được theo dõi và huấn luyện lại khi thị trường thay đổi.
-- Ứng dụng hỗ trợ quyết định, không thay thế thẩm định của con người.
+- The dataset does not contain ground-truth anomaly labels, so true anomaly Precision, Recall, and F1 cannot be reported.
+- The anomaly signal weights and 95th-percentile threshold are heuristic calibration choices rather than thresholds learned from labeled fraud/error outcomes.
+- Rare and high-price segments contain fewer observations and remain more difficult to predict accurately.
+- Segment percentiles such as P1 and P99 can be unstable when segment sample sizes are small.
+- The dataset is a snapshot of Ho Chi Minh City listings up to July 1, 2025 and may not represent other locations or future market conditions.
+- Market drift can reduce prediction and anomaly-calibration quality over time.
+- The application is a decision-support tool and does not replace human valuation or listing verification.
 
-## Planned Improvements
+---
 
-- Chuẩn hóa toàn bộ tài liệu và giao diện sang tiếng Anh.
-- Tinh gọn notebook và tách code tái sử dụng thành module.
-- Bổ sung unit tests, smoke tests và CI.
-- Theo dõi data drift và model drift.
-- Thu thập thêm dữ liệu xe cao cấp, xe hiếm và xe phân khối lớn.
-- Tối ưu hyperparameters và anomaly threshold bằng dữ liệu có nhãn.
-- Bổ sung model card, data statement và tài liệu kiến trúc.
-- Hoàn thiện licensing cho code, dữ liệu và model artifacts trước khi public rộng rãi.
+## Tech Stack
 
-## Team
+- **Python**
+- **pandas / NumPy**
+- **scikit-learn**
+- **PySpark / Spark ML**
+- **Streamlit**
+- **joblib**
 
-**Nhóm 2**
+---
 
-- Nguyễn Minh Khoa
-- Nguyễn Hoàng Quỳnh Anh
+## Notes on Deployment Artifacts
+
+The Streamlit application loads pre-generated artifacts from [`artifacts/`](artifacts/), including:
+
+- the deployment price model;
+- the Isolation Forest model and preprocessing pipeline;
+- segment statistics and segment rules;
+- the deployment configuration;
+- evaluation and calibration summaries.
+
+Keeping these artifacts separate from application code makes the inference workflow easier to inspect and reproduce.
+
+---
+
+## Disclaimer
+
+Predicted prices and anomaly statuses are estimates derived from historical listing data. They should be interpreted as analytical references rather than guarantees of a vehicle's market value or evidence of fraudulent activity.
