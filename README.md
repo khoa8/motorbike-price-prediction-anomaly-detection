@@ -1,5 +1,7 @@
 # Motorbike Price Prediction & Anomaly Detection
 
+[![CI](https://github.com/khoa8/motorbike-price-prediction-anomaly-detection/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/khoa8/motorbike-price-prediction-anomaly-detection/actions/workflows/ci.yml)
+
 An end-to-end machine learning project for **used-motorbike price estimation** and **price anomaly detection** on listing data from Ho Chi Minh City, Vietnam.
 
 The project combines **scikit-learn** for model development, **Apache Spark ML** for distributed-machine-learning benchmarking, and **Streamlit** for interactive deployment.
