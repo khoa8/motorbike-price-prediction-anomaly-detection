@@ -1257,28 +1257,6 @@ def page_batch_check() -> None:
         )
 
 
-def page_team() -> None:
-    st.title("👥 Thông tin nhóm")
-    st.markdown(
-        """
-### Nhóm 2
-
-- Nguyễn Minh Khoa
-    - Anomaly check, Batch check
-    - Tuning Random Forest model
-    - Deploy Streamlit
-    - Documents
-
-- Nguyễn Hoàng Quỳnh Anh
-    - EDA
-    - Price Prediction
-    - Design UI, Testing
-    - Documents
-
-"""
-    )
-
-
 pages = {
     "Application": [
         st.Page(
@@ -1309,13 +1287,6 @@ pages = {
             title="Evaluation & Report",
             icon="📊",
         ),
-    ],
-    "Team": [
-        st.Page(
-            page_team,
-            title="Team Information",
-            icon="👥",
-        )
     ],
 }
 
