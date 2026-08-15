@@ -344,7 +344,7 @@ motorbike-price-prediction-anomaly-detection/
 ├── notebooks/
 │   └── motorbike_price_modeling_and_anomaly_detection.ipynb
 ├── reports/
-│   ├── project2_results_summary.json
+│   ├── results_summary.json
 │   ├── sklearn_feature_importance.csv
 │   ├── sklearn_model_comparison.csv
 │   ├── spark_model_comparison.csv

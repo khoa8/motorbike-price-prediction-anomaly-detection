@@ -208,7 +208,7 @@ motorbike-price-prediction-anomaly-detection/
 ├── notebooks/
 │   └── motorbike_price_modeling_and_anomaly_detection.ipynb
 ├── reports/
-│   ├── project2_results_summary.json
+│   ├── results_summary.json
 │   ├── sklearn_model_comparison.csv
 │   ├── spark_model_comparison.csv
 │   ├── sklearn_feature_importance.csv
@@ -222,11 +222,6 @@ motorbike-price-prediction-anomaly-detection/
 ├── requirements.txt
 └── README.md
 ```
-
-### Notebook roles
-
-- `project2_motorbike_price_anomaly.ipynb`: notebook gốc cho benchmark scikit-learn, Spark và anomaly detection.
-- `project2_motorbike_price_anomaly_streamlit.ipynb`: mở rộng notebook gốc bằng phần feature engineering, lựa chọn deployment model, hiệu chỉnh anomaly và xuất Streamlit artifacts.
 
 ## Run Locally
 
@@ -270,16 +265,16 @@ python -m streamlit run app.py
 
 Mở `http://localhost:8501`.
 
-## Reproduce the Notebooks
+## Reproduce the Analysis
 
 Notebook được thiết kế để chạy trên Google Colab.
 
-1. Mở notebook trong thư mục `notebooks/`.
-2. Đặt `data_motobikes.xlsx` trong `/content`, hoặc upload khi notebook yêu cầu.
+1. Mở [`notebooks/motorbike_price_modeling_and_anomaly_detection.ipynb`](../notebooks/motorbike_price_modeling_and_anomaly_detection.ipynb).
+2. Đảm bảo file dữ liệu nguồn `data_motobikes.xlsx` có sẵn cho notebook. Khi chạy theo workflow Colab hiện tại, notebook có thể yêu cầu upload nếu file chưa có trong `/content`.
 3. Chọn `Runtime -> Run all`.
-4. Tải các output từ `/content/project2_outputs/`.
+4. Kiểm tra hoặc tải các output được tạo ra.
 
-Runtime được ghi nhận trong lần chạy hiện tại:
+Runtime được ghi nhận trong lần chạy mới nhất:
 
 ```text
 Python 3.12.13
