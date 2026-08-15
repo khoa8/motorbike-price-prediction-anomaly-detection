@@ -17,7 +17,6 @@ from src.inference import (
     predict_price,
 )
 
-
 st.set_page_config(
     page_title="Motorbike Price & Anomaly Detection",
     page_icon="🏍️",
@@ -1063,7 +1062,7 @@ def page_batch_check() -> None:
     if uploaded_file is not None:
         try:
             uploaded_data = read_uploaded_csv(uploaded_file)
-        except Exception as error:
+        except Exception as error:  # noqa: BLE001 - UI boundary for upload errors
             st.error(f"Không đọc được CSV: {error}")
             uploaded_data = None
 
@@ -1094,7 +1093,7 @@ def page_batch_check() -> None:
                     st.session_state["batch_errors"] = errors
                 except ValueError as error:
                     st.error(str(error))
-                except Exception as error:
+                except Exception as error:  # noqa: BLE001 - surface unexpected batch errors in UI
                     st.exception(error)
 
     results = st.session_state.get("batch_results")

@@ -5,7 +5,6 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-
 MANUAL_REVIEW_MARGIN = 5.0
 MANUAL_REVIEW_MIN_FLAGS = 2
 MANUAL_REVIEW_MIN_RELATIVE_GAP = 0.50

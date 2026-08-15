@@ -453,14 +453,37 @@ Unit tests in [`tests/test_inference.py`](tests/test_inference.py) cover key inf
 - hard anomaly classification;
 - invalid asking-price validation.
 
+### Run Tests Locally
+
+Install the development dependencies:
+
+```bash
+python -m pip install -r requirements-dev.txt
+```
+
+Run the static code-quality check:
+
+```bash
+ruff check app.py src tests check_project.py generate_requirements.py
+```
+
+Run the unit-test suite:
+
+```bash
+python -m pytest -q
+```
+
+The tests validate key inference behavior without retraining the machine-learning models.
+
 GitHub Actions runs the CI workflow on pull requests targeting `main` and after changes are merged into `main`.
 
 The workflow:
 
-1. installs project and test dependencies;
-2. compiles the Python source files;
-3. validates the deployment artifacts with `check_project.py`;
-4. runs the pytest test suite.
+1. installs project and development dependencies;
+2. checks Python code quality with Ruff;
+3. compiles the Python source files;
+4. validates the deployment artifacts with `check_project.py`;
+5. runs the pytest test suite.
 
 This provides an automated quality check without retraining the machine-learning models.
 
