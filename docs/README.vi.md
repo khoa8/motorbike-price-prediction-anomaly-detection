@@ -206,9 +206,7 @@ motorbike-price-prediction-anomaly-detection/
 ├── examples/
 │   └── motorbike_batch_template.csv
 ├── notebooks/
-│   ├── project2_motorbike_price_anomaly.ipynb
-│   ├── project2_motorbike_price_anomaly_streamlit.ipynb
-│   └── README_project2.md
+│   └── motorbike_price_modeling_and_anomaly_detection.ipynb
 ├── reports/
 │   ├── project2_results_summary.json
 │   ├── sklearn_model_comparison.csv
@@ -285,7 +283,7 @@ Runtime được ghi nhận trong lần chạy hiện tại:
 
 ```text
 Python 3.12.13
-Java 17
+Java 21
 PySpark 4.0.3
 ```
 
