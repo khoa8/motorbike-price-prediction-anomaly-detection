@@ -181,9 +181,20 @@ File mẫu có sẵn trong `examples/motorbike_batch_template.csv`.
 
 ```text
 motorbike-price-prediction-anomaly-detection/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── .streamlit/
 │   └── config.toml
 ├── app.py
+├── artifacts/
+│   ├── deployment_config.json
+│   ├── deployment_results_summary.json
+│   ├── isolation_forest.joblib
+│   ├── isolation_preprocessor.joblib
+│   ├── price_model.joblib
+│   ├── segment_rules.json
+│   └── segment_statistics.csv
 ├── assets/
 │   └── motorbike_banner.png
 ├── docs/
@@ -195,30 +206,25 @@ motorbike-price-prediction-anomaly-detection/
 │       ├── anomaly-check-review.png
 │       ├── anomaly-check.png
 │       └── batch-check.png
-├── artifacts/
-│   ├── price_model.joblib
-│   ├── isolation_preprocessor.joblib
-│   ├── isolation_forest.joblib
-│   ├── deployment_config.json
-│   ├── deployment_results_summary.json
-│   ├── segment_rules.json
-│   └── segment_statistics.csv
 ├── examples/
 │   └── motorbike_batch_template.csv
 ├── notebooks/
 │   └── motorbike_price_modeling_and_anomaly_detection.ipynb
 ├── reports/
 │   ├── results_summary.json
+│   ├── sklearn_feature_importance.csv
 │   ├── sklearn_model_comparison.csv
 │   ├── spark_model_comparison.csv
-│   ├── sklearn_feature_importance.csv
 │   └── spark_rf_feature_importance.csv
 ├── src/
 │   ├── batch.py
 │   ├── features.py
 │   └── inference.py
+├── tests/
+│   └── test_inference.py
 ├── check_project.py
 ├── generate_requirements.py
+├── requirements-dev.txt
 ├── requirements.txt
 └── README.md
 ```

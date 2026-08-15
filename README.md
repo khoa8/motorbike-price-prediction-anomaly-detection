@@ -1,5 +1,7 @@
 # Motorbike Price Prediction & Anomaly Detection
 
+[![CI](https://github.com/khoa8/motorbike-price-prediction-anomaly-detection/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/khoa8/motorbike-price-prediction-anomaly-detection/actions/workflows/ci.yml)
+
 An end-to-end machine learning project for **used-motorbike price estimation** and **price anomaly detection** on listing data from Ho Chi Minh City, Vietnam.
 
 The project combines **scikit-learn** for model development, **Apache Spark ML** for distributed-machine-learning benchmarking, and **Streamlit** for interactive deployment.
@@ -317,6 +319,9 @@ Streamlit Application
 
 ```text
 motorbike-price-prediction-anomaly-detection/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── .streamlit/
 │   └── config.toml
 ├── app.py
@@ -353,8 +358,11 @@ motorbike-price-prediction-anomaly-detection/
 │   ├── batch.py
 │   ├── features.py
 │   └── inference.py
+├── tests/
+│   └── test_inference.py
 ├── check_project.py
 ├── generate_requirements.py
+├── requirements-dev.txt
 ├── requirements.txt
 └── README.md
 ```
@@ -429,6 +437,32 @@ PySpark 4.0.3
 ```
 
 The exact Colab runtime may change over time.
+
+---
+
+## Automated Testing & CI
+
+The repository includes automated validation for the deployment pipeline.
+
+Unit tests in [`tests/test_inference.py`](tests/test_inference.py) cover key inference and anomaly-review behavior, including:
+
+- price prediction output scaling;
+- segment-statistics lookup and global fallback;
+- normal listing classification;
+- large-price-gap manual review;
+- hard anomaly classification;
+- invalid asking-price validation.
+
+GitHub Actions runs the CI workflow on pull requests targeting `main` and after changes are merged into `main`.
+
+The workflow:
+
+1. installs project and test dependencies;
+2. compiles the Python source files;
+3. validates the deployment artifacts with `check_project.py`;
+4. runs the pytest test suite.
+
+This provides an automated quality check without retraining the machine-learning models.
 
 ---
 
